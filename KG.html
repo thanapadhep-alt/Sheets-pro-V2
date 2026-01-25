@@ -1,0 +1,1519 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>ป.58 พิเศษ</title>
+
+<style>
+  /* ===== A4 PRINT SETUP (FIXED) ===== */
+@page{
+  size: A4 portrait;
+  margin: 10mm;
+}
+
+/* ===== PRINT MODE (รวมให้เหลือชุดเดียว) ===== */
+@media print{
+  html, body{
+    font-size: 88% !important;
+  }
+  html, body{
+  width: 225mm;
+  height: 312mm;
+  margin: 0;
+  padding: 0;
+}
+  body{
+    font-size: 90% !important;
+  }
+  
+  *{
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ซ่อนปุ่ม/เมนูที่ไม่ต้องการพิมพ์ */
+  .no-print,
+  .nav3,
+  button{
+    display:none !important;
+  }
+
+  /* เอาสีไฮไลท์ออกตอนพิมพ์ */
+  .hl-have,
+  .hl-warn{
+    background:none !important;
+  }
+
+  /* กันตารางแตกหน้า */
+  table, tr, td{
+    page-break-inside: avoid;
+  }
+
+  /* กันตัวอักษรบางจนเหมือนหาย */
+  .ritz .waffle td{
+    font-weight: 400 !important;
+  }
+}
+
+/* ===== A4 PRINT SETUP ===== */
+/* ไม่ให้ตารางแตกหน้า */
+table, tr, td{
+  page-break-inside: avoid;
+}
+
+/* ซ่อนสิ่งที่ไม่ต้องพิมพ์ */
+
+  .page-a4{
+  box-sizing: border-box;
+  width: 100%;
+}
+  /* ===== BUTTON STYLE ===== */
+.btn-export{
+  padding:15px 39px;
+  margin-right:6px;
+  border-radius:20px;
+  border:0;
+  cursor:pointer;
+  font-size:15px;
+  font-family:"TH Sarabun New","Kanit",sans-serif;
+}
+  /* ปุ่มกลับ */
+.btn-back{background:#ff8fb1;color:#fff;}
+
+/* Export HTML */
+.btn-html{background:#4011d5;color:#fff;}
+
+/* Export PDF */
+.btn-pdf{background:#8f049f;color:#fff;}
+
+/* hover */
+.btn-export:hover{
+  opacity:0.85;
+}
+ 
+body{
+  margin:0;
+  font-family:"TH Sarabun New","Kanit",sans-serif;
+}
+/* =====font style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
+.ritz .waffle a { color: inherit; }
+.ritz .waffle .s16{border-bottom:1px solid #000;background:#fff;text-align:center;font-size:10pt;}
+.ritz .waffle .s7{border-bottom:1px solid #000;border-right:1px solid #000;text-align:left;font-size:10pt;}
+.ritz .waffle .s11{border-bottom:1px dotted #000;text-align:right;font-size:10pt;}
+.ritz .waffle .s18{text-align:center;text-decoration:underline;font-size:10pt;}
+.ritz .waffle .s1{text-align:center;font-size:10pt;}
+.ritz .waffle .s19{text-align:right;font-size:10pt;}
+.ritz .waffle .s8{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-size:10pt;}
+.ritz .waffle .s12{border-bottom:1px dotted #000;text-align:center;font-size:7pt;}
+.ritz .waffle .s3{text-align:center;font-size:10pt;}
+.ritz .waffle .s10{border-bottom:1px dotted #000;text-align:center;text-decoration:underline;font-size:10pt;}
+.ritz .waffle .s6{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-weight:bold;font-size:10pt;}
+.ritz .waffle .s9{border-bottom:1px solid #000;text-align:center;font-size:10pt;}
+.ritz .waffle .s14{border-bottom:1px solid #000;text-align:center;text-decoration:underline;font-size:10pt;}
+.ritz .waffle .s15{border-bottom:0px solid #000;text-align:center;font-size:10pt;}
+.ritz .waffle .s17{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-size:10pt;}
+.ritz .waffle .s13{border-bottom:1px solid #000;text-align:right;font-size:10pt;}
+.ritz .waffle .s0{text-align:left;font-size:10pt;}
+.ritz .waffle .s4{border-bottom:1px solid #000;text-align:center;font-size:10pt;}
+.ritz .waffle .s5{border-bottom:1px solid #000;border-right:1px solid #000;text-align:center;font-weight:bold;font-size:11pt;}
+.ritz .waffle .s20{text-align:center;font-size:10pt;}
+.ritz .waffle .s2{text-align:left;font-size:10pt;}
+
+table.waffle{
+  width:100%;
+  border-collapse:collapse;
+}
+.row-write td{
+  padding-top:1px;
+  padding-bottom:8px;
+}
+	table.waffle {
+  border: 2px solid #000;
+}
+
+.left{
+  text-align:left !important;
+}
+.center{
+  text-align:center !important;
+}
+.right{
+  text-align:right !important;
+}
+
+</style>
+</head>
+<body>
+  <!-- ✅ ปุ่มกลับหน้าแรก -->
+<div class="no-print" style="margin:10px">
+  <button onclick="goBack()" class="btn-export btn-back">
+    ⬅ กลับหน้าแรก
+  </button>
+  
+  <button onclick="exportHTML()" class="btn-export btn-html">
+    📄 Export HTML
+  </button>
+
+  <button onclick="exportPDF()" class="btn-export btn-pdf">
+    🖨 Export PDF
+  </button>
+</div>
+
+<div class="page-a4">  
+
+<div class="ritz">
+
+<table class="waffle">
+
+<tbody>
+  <tr>
+    <td class="s3">ป.58 พิเศษ</td>
+  </tr>
+
+<tr>
+  <td class="s3" colspan="15">
+    บัญชีรับ-ส่งถุงไปรษณีย์ระหว่าง ศป.ขก ถึง ศป.อุบลราชธานี													
+  </td>
+</tr>
+
+<tr>
+  <td class="s4" colspan="15">
+  ประจำวันที่ <span id="day"></span>
+  เดือน <span id="month"></span>
+  พ.ศ. <span id="year"></span>
+</td>
+</tr>
+
+<!-- ====== ตารางจริง (ยกมาจากต้นฉบับ) ====== -->
+
+<tr class="row-write">
+  <td class="s5" colspan="2"><br>เที่ยว / เข้า	
+</td>
+  <td class="s5" colspan="15"><br> แผนก EMS ประเภท จ่าย / ผ่าน											</td>
+</tr>
+
+<tr>
+  <td class="s7"><span style="font-size: 14.6667px; font-weight: 700; text-align: center;">ต้นทาง</span></td>
+  <td class="s8">ถุง</td><td class="s8"><span style="font-size: 14.6667px; font-weight: 700;">ต้นทาง</span></td>
+  <td class="s8">ถุง</td><td class="s8"><span style="font-size: 14.6667px; font-weight: 700;">ต้นทาง</span></td><td class="s8">ถุง</td>
+  <td class="s7"><span style="font-size: 14.6667px; font-weight: 700; text-align: center;">ต้นทาง</span></td>
+
+  <td class="s7"><span style="text-align: center;">ถุง</span></td>
+  <td class="s8"><span style="font-size: 14.6667px; font-weight: 700;">ต้นทาง</span></td><td class="s8">ถุง</td>
+  <td class="s8"><span style="font-size: 14.6667px; font-weight: 700;">ต้นทาง</span></td><td class="s8">ถุง</td><td class="s8"><span style="font-size: 14.6667px; font-weight: 700;">ต้นทาง</span></td>
+  <td class="s7">ถุง</td>
+  <td class="s9">R/U</td>
+</tr>
+
+<tr>
+  <td class="s7">เชียงใหม่</td>
+  <td class="s8" id="cnt-bag-3419034010"></td><td class="s7">เกาะคา</td>
+  <td class="s8"></td><td class="s7">แม่ใจ </td><td class="s8"></td>
+  <td class="s7">วังทอง</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">สวนผึ้ง</td><td class="s8" id="cnt-bag-3322034010"></td>
+  <td class="s8" id="cnt-roll-3322034010"></td><td class="s8"></td><td class="s8"></td>
+	<td class="s7"></td>
+	<td class="s9"></td>
+</tr>
+	
+<tr>
+  <td class="s7">หนองหอย </td>
+  <td class="s8" id="sum-col2-row4to5"></td><td class="s7">วังเหนือ</td>
+  <td class="s8" id="sum-col3-row4to5"></td><td class="s7">ปง </td><td class="s8"></td>
+  <td class="s7">บางระกำ</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">ห้วยกระบอก</td><td class="s8" id="cnt-bag-3316034010"></td>
+  <td class="s8" id="cnt-roll-3316034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+
+<tr>
+  <td class="s7">ช้างคลาน </td>
+  <td class="s8" id="cnt-bag-3400034010"></td><td class="s7">แม่ทะ</td>
+  <td class="s8"></td><td class="s7">จุน </td><td class="s8"></td>
+  <td class="s7">พรหมพิราม</td>
+
+  <td class="s7"></td>
+  <td class="s7">หลักห้า</td><td class="s8" id="sum-col9-row5to6"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-col10-row5to6"></td><td class="s8">Roll</td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ฝาง </td>
+  <td class="s8" id="cnt-bag-3400134010"></td><td class="s7">เถิน</td>
+  <td class="s8"></td><td class="s7">เชียงม่วน </td><td class="s8"></td>
+  <td class="s7">วัดโบสถ์</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">กาญจนบุรี</td><td class="s8" id="cnt-bag-3511034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">สันป่าตอง </td>
+  <td class="s8" id="cnt-bag-0032034010"></td><td class="s7">สบปราบ</td>
+  <td class="s8"></td><td class="s7">เชียงราย </td><td class="s8"></td>
+  <td class="s7">ชาติตระการ</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">หน้าเมือง</td><td class="s8" id="cnt-bag-3513034010"></td>
+  <td class="s8" id="cnt-roll-3513034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">สันกำแพง </td>
+  <td class="s8" id="cnt-bag-0036134010"></td><td class="s7">แม่พริก</td>
+  <td class="s8"></td><td class="s7">ลานนา</td><td class="s8"></td>
+  <td class="s7">หนองตม</td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ท่าม่วง</td><td class="s8" id="cnt-bag-3415034010"></td>
+  <td class="s8" id="cnt-roll-3415034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">บ่อสร้าง </td>
+  <td class="s8" id="cnt-bag-0034234010"></td><td class="s7">ห้างฉัตร</td>
+  <td class="s8"></td><td class="s7">บ้านดู่ </td><td class="s8"></td>
+  <td class="s7">เนินมะปราง</td>
+
+  <td class="s7"></td>
+  <td class="s7">ท่ามะกา</td><td class="s8" id="sum-col9-row7to9"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-col10-row7to9"></td>
+  <td class="s8">Roll</td><td class="s8"></td><td class="s8"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">สารภี </td>
+  <td class="s8" id="cnt-bag-0012934010"></td><td class="s7">เสริมงาม</td>
+  <td class="s8"></td><td class="s7">แม่จัน </td><td class="s8"></td>
+  <td class="s7">เนินกุ่ม</td>
+
+  <td class="s7"></td>
+  <td class="s7">ลูกแก</td><td class="s8" id="cnt-bag-3514034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">แม่แตง </td>
+  <td class="s8" id="cnt-bag-0040334010"></td><td class="s7">แม่เมาะ</td>
+  <td class="s8"></td><td class="s7">พาน </td><td class="s8"></td>
+  <td class="s7">แก่งโสภา</td>
+
+  <td class="s7"></td>
+  <td class="s7"> ท่าเรือพระแท่น</td><td class="s8" id="cnt-bag-3517034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">จอมทอง </td>
+  <td class="s8" id="sum-col2-row6to12"></td><td class="s7">แม่วะ</td>
+  <td class="s8" id="sum-col3-row6to12"></td><td class="s7">แม่สาย </td><td class="s8"></td>
+  <td class="s7">วัดพริก</td>
+
+  <td class="s7"></td>
+  <td class="s7">พนมทวน</td><td class="s8" id="cnt-bag-3500034010"></td>
+  <td class="s8" id="cnt-roll-3500034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">เชียงดาว</td>
+  <td class="s8" id="cnt-bag-3400234010"></td><td class="s7">เมืองปาน</td>
+  <td class="s8"></td><td class="s7">เชียงของ </td><td class="s8"></td>
+  <td class="s7">ชุมแสงสงคราม</td>
+
+  <td class="s7"></td>
+  <td class="s7">ไทรโยค</td><td class="s8" id="cnt-bag-3518034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">แม่ริม </td>
+  <td class="s8" id="cnt-bag-3400334010"></td><td class="s7">อุตรดิตถ์</td>
+  <td class="s8"></td><td class="s7">เชียงแสน </td><td class="s8"></td>
+  <td class="s7">ปจ.พิจิตร</td>
+
+  <td class="s7"></td>
+  <td class="s7"> บ่อพลอย</td><td class="s8" id="cnt-bag-3432034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">พร้าว </td>
+  <td class="s8" id="sum-col2-row13to14"></td><td class="s7">ท่าเสา</td>
+  <td class="s8" id="sum-col3-row13to14"></td><td class="s7">เทิง </td><td class="s8"></td>
+  <td class="s7">ตะพานหิน</td>
+
+  <td class="s7"></td>
+  <td class="s7"> ตลาดเขต</td><td class="s8" id="cnt-bag-0033334010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">สามแยกสวนปรุง </td>
+  <td class="s8" id="cnt-bag-3422034010"></td><td class="s7">น้ำปาด </td>
+  <td class="s8"></td><td class="s7">เวียงป่าเป้า </td><td class="s8"></td>
+  <td class="s7">บางมูลนาก</td>
+
+  <td class="s7"></td>
+  <td class="s7">ทองผาภูมิ</td><td class="s8" id="sum-col9-row10to15"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-col10-row10to15"></td><td class="s8">Roll</td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ม.เชียงใหม่ </td>
+  <td class="s8" id="cnt-bag-3435034010"></td><td class="s7">พิชัย </td>
+  <td class="s8"></td><td class="s7">แม่สรวย </td><td class="s8"></td>
+  <td class="s7">โพทะเล</td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ลาดหญ้า</td><td class="s8" id="cnt-bag-3515034010"></td>
+  <td class="s8" id="cnt-roll-3515034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ศรีภูมิ </td>
+  <td class="s8" id="cnt-bag-3411034010"></td><td class="s7">ลับแล </td>
+  <td class="s8"></td><td class="s7">ป่าแดด </td><td class="s8"></td>
+  <td class="s7">สามง่าม</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">เลาขวัญ</td><td class="s8" id="cnt-bag-3414034010"></td>
+  <td class="s8" id="cnt-roll-3414034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ทอ.เชียงใหม่ </td>
+  <td class="s8" id="cnt-bag-0007434010"></td><td class="s7">ตรอน </td>
+  <td class="s8"></td><td class="s7">เวียงชัย </td><td class="s8"></td>
+  <td class="s7">ทับคล้อ</td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> หนองปรือ</td><td class="s8" id="cnt-bag-3724034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">พระสิงห์ 
+</td>
+  <td class="s8" id="sum-col2-row15to18"></td><td class="s7">ท่าปลา </td>
+  <td class="s8" id="sum-col3-row15to18"></td><td class="s7">ห้วยไคร้ </td><td class="s8"></td>
+  <td class="s7">สากเหล็ก</td>
+
+  <td class="s7"></td>
+  <td class="s7">สังขละบุรี</td><td class="s8" id="sum-col9-row16to18"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-col10-row16to18"></td><td class="s8">Roll</td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">สันทราย </td>
+  <td class="s8" id="cnt-bag-3425034010"></td><td class="s7">ฟากท่า </td>
+  <td class="s8"></td><td class="s7">ปล้อง </td><td class="s8"></td>
+  <td class="s7">หัวดง </td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ท่ากระดาน</td><td class="s8" id="cnt-bag-3311034010"></td>
+  <td class="s8" id="cnt-roll-3311034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ดอยสะเก็ด </td>
+  <td class="s8" id="cnt-bag-3433034010"></td><td class="s7">วังกะพี้ </td>
+  <td class="s8"></td><td class="s7">แม่คำ </td><td class="s8"></td>
+  <td class="s7">วังทรายพูน</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">ด่านมะเขือเตี้ย</td><td class="s8" id="cnt-bag-3325034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">หางดง </td>
+  <td class="s8" id="sum-col2-row19to20"></td><td class="s7">บ้านโคก </td>
+  <td class="s8" id="sum-col3-row19to20"></td><td class="s7">แม่ลาว </td><td class="s8"></td>
+  <td class="s7">โพธิ์ประทับช้าง</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">สุพรรณบุรี</td><td class="s8" id="cnt-bag-3436034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ฮอด </td>
+  <td class="s8" id="cnt-bag-3426034010"></td><td class="s7">ร่วมจิต </td>
+  <td class="s8"></td><td class="s7">แม่เจดีย์ </td><td class="s8"></td>
+  <td class="s7">วังตะกู</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">ป่าเลไลย์</td><td class="s8" id="cnt-bag-0042734010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">สะเมิง </td>
+  <td class="s8" id="cnt-bag-3416034010"></td><td class="s7">ทุ่งยั้ง </td>
+  <td class="s8"></td><td class="s7">จันจว้า </td><td class="s8"></td>
+  <td class="s7">กำแพงดิน</td>
+
+  <td class="s7"></td>
+  <td class="s7">สองพี่น้อง</td><td class="s8" id="sum-col9-row19to22"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-col10-row19to22"></td><td class="s8">Roll</td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ดอยเต่า </td>
+  <td class="s8" id="cnt-bag-0008634010"></td><td class="s7">ท่าสัก</td>
+  <td class="s8"></td><td class="s7">แม่เย็น </td><td class="s8"></td>
+  <td class="s7">เขาทราย</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">เดิมบางนางบวช</td><td class="s8" id="cnt-bag-3314034010"></td>
+  <td class="s8" id="cnt-roll-3314034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">แม่แจ่ม </td>
+  <td class="s8" id="cnt-bag-0093334010"></td><td class="s7">ทองแสนขัน 
+</td>
+  <td class="s8"></td><td class="s7">พญาเม็งราย </td><td class="s8"></td>
+  <td class="s7">เพชรบูรณ์</td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> สามชุก</td><td class="s8" id="cnt-bag-3318034010"></td>
+  <td class="s8" id="cnt-roll-3318034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">แม่อาย </td>
+  <td class="s8" id="sum-col2-row21to24"></td><td class="s7">แพร่ </td>
+  <td class="s8" id="sum-col3-row21to24"></td><td class="s7">เวียงแก่น </td><td class="s8"></td>
+  <td class="s7">หล่มสัก</td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ศรีประจันต์</td><td class="s8" id="cnt-bag-3315034010"></td>
+  <td class="s8" id="cnt-roll-3315034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">แม่โจ้ </td>
+  <td class="s8" id="cnt-bag-3428034010"></td><td class="s7">บ้านทุ่ง </td>
+  <td class="s8"></td><td class="s7">ขุนตาล </td><td class="s8"></td>
+  <td class="s7">หล่มเก่า</td>
+
+  <td class="s7"></td>
+  <td class="s7">บางปลาม้า</td><td class="s8" id="sum-col9-row23to25"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-col10-row23to25"></td><td class="s8">Roll</td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">แม่ปิง </td>
+  <td class="s8" id="cnt-bag-3423034010"></td><td class="s7">เด่นชัย </td>
+  <td class="s8"></td><td class="s7">แม่ฮ่องสอน </td><td class="s8"></td>
+  <td class="s7">วิเชียรบุรี</td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> อู่ทอง</td><td class="s8" id="cnt-bag-3516034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ช้างเผือก </td>
+  <td class="s8" id="sum-col2-row25to26"></td><td class="s7">สอง </td>
+  <td class="s8" id="sum-col3-row25to26"></td><td class="s7">แม่สะเรียง </td><td class="s8"></td>
+  <td class="s7">หนองไผ่</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">ดอนเจดีย์</td><td class="s8" id="cnt-bag-3319034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ศาลากลางเชียงใหม่ </td>
+  <td class="s8" id="cnt-bag-3711034010"></td><td class="s7">สูงเม่น </td>
+  <td class="s8"></td><td class="s7">แม่ลาน้อย </td><td class="s8"></td>
+  <td class="s7">ชนแดน</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">ด่านช้าง</td><td class="s8" id="cnt-bag-3313034010"></td>
+  <td class="s8" id="cnt-roll-3313034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">อมก๋อย </td>
+  <td class="s8" id="cnt-bag-3427034010"></td><td class="s7">ร้องกวาง </td>
+  <td class="s8"></td><td class="s7">ปาย </td><td class="s8"></td>
+  <td class="s7">บึงสามพัน</td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ทุ่งคอก</td><td class="s8" id="cnt-bag-3431034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ไชยปราการ </td>
+  <td class="s8" id="cnt-bag-3718034010"></td><td class="s7">ลอง </td>
+  <td class="s8"></td><td class="s7">ขุนยวม </td><td class="s8"></td>
+  <td class="s7">ศรีเทพ</td>
+
+  <td class="s7"></td>
+  <td class="s7">สวนแตง</td><td class="s8" id="sum-col9-row26to29"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-col10-row26to29"></td><td class="s8">Roll</td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">สันป่ายาง </td>
+  <td class="s8" id="cnt-bag-3413034010"></td><td class="s7">วังชิ้น </td>
+  <td class="s8"></td><td class="s7">ปางมะผ้า </td><td class="s8"></td>
+  <td class="s7">พุเตย</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">สระยายโสม</td><td class="s8" id="cnt-bag-3312034010"></td>
+  <td class="s8" id="cnt-roll-3312034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">หนองตอง </td>
+  <td class="s8" id="sum-col2-row27to30"></td><td class="s7">หนองม่วงไข่ </td>
+  <td class="s8" id="sum-col3-row27to30"></td><td class="s7">ปจ.สุโขทัย </td><td class="s8"></td>
+  <td class="s7">ดงขุย</td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> ท่าเสด็จ</td><td class="s8" id="cnt-bag-3321034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> เวียงแหง </td>
+  <td class="s8" id="cnt-bag-3417034010"></td><td class="s7">น่าน </td>
+  <td class="s8"></td><td class="s7">สวรรคโลก </td><td class="s8"></td>
+  <td class="s7">วังชมภู</td>
+
+  <td class="s7"></td>
+  <td class="s7">หนองหญ้าไซ</td><td class="s8" id="sum-col9-row30to31"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-col10-row30to31"></td><td class="s8">Roll</td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">บ้านกาด </td>
+  <td class="s8" id="cnt-bag-3434034010"></td><td class="s7">เวียงสา </td>
+  <td class="s8"></td><td class="s7">ศรีสำโรง</td><td class="s8"></td>
+  <td class="s7">นาเฉลียง</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">สระกระโจม</td><td class="s8" id="cnt-bag-3300034010"></td>
+  <td class="s8" id="cnt-roll-3300034010"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ลำพูน </td>
+  <td class="s8" id="cnt-bag-3721034010"></td><td class="s7">ปัว</td>
+  <td class="s8"></td><td class="s7">ศรีสัชนาลัย</td><td class="s8"></td>
+  <td class="s7">วังพิกุล</td>
+
+  <td class="s7"></td>
+  <td class="s8 left"> พระนครศรีอยุธยา</td><td class="s8" id="cnt-bag-3317034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ลี้ </td>
+  <td class="s8"></td><td class="s7">ทุ่งช้าง </td>
+  <td class="s8"></td><td class="s7">บ้านด่านลานหอย</td><td class="s8"></td>
+  <td class="s7">วังโป่ง</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">โรจนะ</td><td class="s8" id="cnt-bag-3323034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ป่าซาง</td>
+  <td class="s8" id="sum-col2-row31to34"></td><td class="s7">ท่าวังผา </td>
+  <td class="s8" id="sum-col3-row31to34"></td><td class="s7">ทุ่งเสลี่ยม</td><td class="s8"></td>
+  <td class="s7">ท่าพล</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">เดชาวุธ</td><td class="s8" id="cnt-bag-3324034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> บ้านโฮ่ง </td>
+  <td class="s8" id="cnt-bag-3512034010"></td><td class="s7">นาน้อย</td>
+  <td class="s8"></td><td class="s7">คีรีมาศ</td><td class="s8"></td>
+  <td class="s7">น้ำหนาว</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">เสนา</td><td class="s8" id="cnt-bag-3327034010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">แม่ทา </td>
+  <td class="s8" id="cnt-bag-3729034010"></td><td class="s7">เชียงกลาง</td>
+  <td class="s8"></td><td class="s7">กงไกรลาศ</td><td class="s8"></td>
+  <td class="s7">เขาค้อ</td>
+
+  <td class="s7"></td>
+  <td class="s8 left">ผักไห่</td><td class="s8" id="cnt-bag-3300134010"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">อุโมงค์ </td>
+  <td class="s8" id="cnt-bag-3712034010"></td><td class="s7">แม่จริม </td>
+  <td class="s8"></td><td class="s7">ศรีนคร</td><td class="s8"></td>
+  <td class="s7">แคมป์สน</td>
+
+  <td class="s7"></td>
+  <td class="s7">ท่าเรือ</td><td class="s8" id="sum-col9-row32to37"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-col10-row32to37"></td><td class="s8">Roll</td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">ทุ่งหัวช้าง </td>
+  <td class="s8" id="sum-col2-row35to37"></td><td class="s7">นาหมื่น </td>
+  <td class="s8" id="sum-col3-row35to37"></td><td class="s7">ท่าชัย</td><td class="s8"></td>
+  <td class="s7">ราชบุรี</td>
+
+  <td class="s7"></td>
+  <td class="s7">ภาชี</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7"> ทากาด </td>
+  <td class="s8" id="cnt-bag-3700034010"></td><td class="s7">บ้านหลวง </td>
+  <td class="s8"></td><td class="s7">เมืองเก่า</td><td class="s8"></td>
+  <td class="s7">บ้านโป่ง</td>
+
+  <td class="s7"></td>
+  <td class="s7">มหาราช</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	<tr>
+  <td class="s7">บ้านธิ </td>
+  <td class="s8" id="cnt-bag-003034010"></td><td class="s7">ดู่พงษ์ </td>
+  <td class="s8"></td><td class="s7">บ้านสวน</td><td class="s8"></td>
+  <td class="s7">โพธาราม</td>
+
+  <td class="s7"></td>
+  <td class="s7">บางปะอิน</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	<tr>
+  <td class="s7">ลำปาง </td>
+  <td class="s8" id="cnt-bag-0030834010"></td><td class="s7">บ่อเกลือ </td>
+  <td class="s8"></td><td class="s7">บ้านใหม่ไชยมงคล</td><td class="s8"></td>
+  <td class="s7">ดำเนินสะดวก</td>
+
+  <td class="s7"></td>
+  <td class="s7">วังน้อย</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	<tr>
+  <td class="s7">สบตุ๋ย </td>
+  <td class="s8" id="cnt-bag-030834010"></td><td class="s7">พะเยา </td>
+  <td class="s8"></td><td class="s7">พิษณุโลก</td><td class="s8"></td>
+  <td class="s7">ปากท่อ</td>
+
+  <td class="s7"></td>
+  <td class="s7">ประตูน้ำพระอินทร์</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	<tr>
+  <td class="s7">แม่วัง </td>
+  <td class="s8" id="cnt-bag-000834010"></td><td class="s7">หนองระบู </td>
+  <td class="s8"></td><td class="s7">อรัญญิก</td><td class="s8"></td>
+  <td class="s7">จอมบึง</td>
+
+  <td class="s7"></td>
+  <td class="s7">บางไทร</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	<tr>
+  <td class="s7">งาว </td>
+  <td class="s8" id="cnt-bag-00304010"></td><td class="s7">เชียงคำ </td>
+  <td class="s8"></td><td class="s7">บางกระทุ่ม</td><td class="s8"></td>
+  <td class="s7">บางแพ</td>
+
+  <td class="s7"></td>
+  <td class="s7">อุทัย</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	<tr>
+  <td class="s7"> แจ้ห่ม </td>
+  <td class="s8" id="cnt-bag-0834010"></td><td class="s7">ดอกคำใต้</td>
+  <td class="s8"></td><td class="s7">นครไทย</td><td class="s8"></td>
+  <td class="s7">วัดเพลง</td>
+
+  <td class="s7"></td>
+  <td class="s7">บางปะหัน</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	<tr>
+  <td class="s7"> คต.บิ๊กซี ลพบุรี</td>
+  <td class="s8" id="cnt-bag-0030830"></td><td class="s7">คต.ม.แม่ฟ้าหลวง</td>
+  <td class="s8"></td><td class="s7">ส.พ่อขุนผาเมือง</td><td class="s8"></td>
+  <td class="s7">คต.สุขอนันต์ ปาร์ค</td>
+
+  <td class="s7"></td>
+  <td class="s8">ศิลปาชีพบางไทร</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	<tr>
+  <td class="s7">คต.โรบินสัน ลพบุรี</td>
+  <td class="s8" id="cnt-bag-003010"></td><td class="s7">คต.สี่แยกคลองโพธิ์</td>
+  <td class="s8"></td><td class="s7">เหมราช</td><td class="s8"></td>
+  <td class="s7">ตลาดเมืองพาล</td>
+
+  <td class="s7"></td>
+  <td class="s7">ศูนย์ฯ E-Com</td><td class="s8"></td>
+  <td class="s8"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+	
+	
+	<tr>
+  <td class="s7 right"></td>
+  <td class="s8" id="sum-col2-row38to39"></td><td class="s8"></td>
+  <td class="s8" id="sum-col3-row38to39"></td><td class="s8"></td><td class="s8"></td>
+  <td class="s7"></td>
+
+  <td class="s7"></td>
+  <td class="s8">รวมทั้งสิ้น</td><td class="s8" id="sum-row-01-bag"></td>
+  <td class="s8">ถุง</td><td class="s8" id="sum-row-01-roll"></td><td class="s8">Roll</td>
+  <td class="s7"></td>
+  <td class="s9"></td>
+</tr>
+
+<!-- ====== (ตารางยาว: แถวอื่น ๆ ให้คัดลอกต่อได้เลยจากต้นฉบับ) ====== -->
+
+<tr class="row-write">
+  <td class="s1" colspan="7">ลงชื่อ..................................... ผู้ส่งมอบ</td>
+  <td></td>
+  <td class="s1" colspan="7">ลงชื่อ..................................... ผู้รับมอบ</td>
+</tr>
+
+<tr class="row-write">
+  <td class="s1" colspan="7">
+    วันที่ <span id="d2-day"></span>
+    เดือน <span id="d2-month"></span>
+    พ.ศ. <span id="d2-year"></span>
+    เวลา <span id="d2-time"></span> น.
+  </td>
+  <td></td>
+  <td class="s1" colspan="7">
+    วันที่ ........ เดือน ........ พ.ศ. ........ เวลา ........ น.
+  </td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+</div>  
+  
+ <script>
+(function setThaiDateTime(){
+  const now = new Date();
+
+  const day = now.getDate();
+  const monthNames = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
+    "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
+    "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+  ];
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear() + 543;
+
+  const hh = String(now.getHours()).padStart(2,"0");
+  const mm = String(now.getMinutes()).padStart(2,"0");
+  const time = `${hh}:${mm}`;
+
+  const d = document.getElementById("d2-day");
+  const m = document.getElementById("d2-month");
+  const y = document.getElementById("d2-year");
+  const t = document.getElementById("d2-time");
+
+  if(d) d.textContent = day;
+  if(m) m.textContent = month;
+  if(y) y.textContent = year;
+  if(t) t.textContent = time;
+})();
+</script>
+  <script>
+(function setThaiDate(){
+  const now = new Date();
+
+  const day = now.getDate();
+  const monthNames = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน",
+    "พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม",
+    "กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+  ];
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear() + 543;
+
+  const d = document.getElementById("day");
+  const m = document.getElementById("month");
+  const y = document.getElementById("year");
+
+  if(d) d.textContent = day;
+  if(m) m.textContent = month;
+  if(y) y.textContent = year;
+})();
+</script>
+  
+ <script>
+const scanA = JSON.parse(localStorage.getItem("scan-A") || []);
+
+/* ===== COUNTIF แยกชนิด ===== */
+function COUNTIF_TYPE(arr, keyword, type){
+  return arr.filter(
+    v => v.type === type && v.code.includes(keyword)
+  ).length;
+}
+
+/* ===== คำนวณอัตโนมัติทุกช่อง ===== */
+document.querySelectorAll('[id^="cnt-"]').forEach(td => {
+  const parts = td.id.split("-");
+  // cnt-bag-3419034010
+  const mode = parts[1];
+  const code = parts.slice(2).join("-");
+
+  let value = "";
+
+  if(mode === "bag"){
+    value = COUNTIF_TYPE(scanA, code, "bag");
+  }
+  else if(mode === "roll"){
+    value = COUNTIF_TYPE(scanA, code, "roll");
+  }
+  else if(mode === "all"){
+    value =
+      COUNTIF_TYPE(scanA, code, "bag") +
+      COUNTIF_TYPE(scanA, code, "roll");
+  }
+
+  td.textContent = value || "";
+});
+window.addEventListener("load", function(){
+  if(typeof calcSum_col2_row6_12 === "function") calcSum_col2_row6_12();   // ✅ เพิ่มผลรวมถุงซ้ายอันนี้
+  if(typeof calcSum_col2_row13_14 === "function") calcSum_col2_row13_14(); 
+  if(typeof calcSum_col2_row15_18 === "function") calcSum_col2_row15_18();
+  if(typeof calcSum_col2_row4_5 === "function") calcSum_col2_row4_5();
+  if(typeof calcSum_col2_row19_20 === "function") calcSum_col2_row19_20();
+  if(typeof calcSum_col2_row21_24 === "function") calcSum_col2_row21_24();
+  if(typeof calcSum_col2_row25_26 === "function") calcSum_col2_row25_26();
+  if(typeof calcSum_col2_row27_30 === "function") calcSum_col2_row27_30();
+  if(typeof calcSum_col2_row31_34 === "function") calcSum_col2_row31_34();
+  if(typeof calcSum_col2_row35_37 === "function") calcSum_col2_row35_37();
+  if(typeof calcSum_col2_row38_39 === "function") calcSum_col2_row38_39();
+  
+  if(typeof calcSum_col9_row5_6 === "function") calcSum_col9_row5_6();    // ✅ เพิ่มผลรวมถุงขวาอันนี้
+  if(typeof calcSum_col9_row7_9 === "function") calcSum_col9_row7_9();
+  if(typeof calcSum_col9_row10_15 === "function") calcSum_col9_row10_15();
+  if(typeof calcSum_col9_row16_18 === "function") calcSum_col9_row16_18();
+  if(typeof calcSum_col9_row19_22 === "function") calcSum_col9_row19_22();
+  if(typeof calcSum_col9_row23_25 === "function") calcSum_col9_row23_25();
+  if(typeof calcSum_col9_row26_29 === "function") calcSum_col9_row26_29();
+  if(typeof calcSum_col9_row30_31 === "function") calcSum_col9_row30_31();
+  if(typeof calcSum_col9_row32_37 === "function") calcSum_col9_row32_37();
+  
+  if(typeof calcSum_col3_row6_12 === "function") calcSum_col3_row6_12();   // roll ซ้าย
+  if(typeof calcSum_col3_row13_14 === "function") calcSum_col3_row13_14(); 
+  if(typeof calcSum_col3_row15_18 === "function") calcSum_col3_row15_18();
+  if(typeof calcSum_col3_row4_5 === "function") calcSum_col3_row4_5();
+  if(typeof calcSum_col3_row19_20 === "function") calcSum_col3_row19_20();
+  if(typeof calcSum_col3_row21_24 === "function") calcSum_col3_row21_24();
+  if(typeof calcSum_col3_row25_26 === "function") calcSum_col3_row25_26();
+  if(typeof calcSum_col3_row27_30 === "function") calcSum_col3_row27_30();
+  if(typeof calcSum_col3_row31_34 === "function") calcSum_col3_row31_34();
+  if(typeof calcSum_col3_row35_37 === "function") calcSum_col3_row35_37();
+  if(typeof calcSum_col3_row38_39 === "function") calcSum_col3_row38_39();
+  
+  if(typeof calcSum_col10_row5_6 === "function") calcSum_col10_row5_6();    // roll ขวา
+  if(typeof calcSum_col10_row7_9 === "function") calcSum_col10_row7_9();
+  if(typeof calcSum_col10_row10_15 === "function") calcSum_col10_row10_15();
+  if(typeof calcSum_col10_row16_18 === "function") calcSum_col10_row16_18();
+  if(typeof calcSum_col10_row19_22 === "function") calcSum_col10_row19_22();
+  if(typeof calcSum_col10_row23_25 === "function") calcSum_col10_row23_25();
+  if(typeof calcSum_col10_row26_29 === "function") calcSum_col10_row26_29();
+  if(typeof calcSum_col10_row30_31 === "function") calcSum_col10_row30_31();
+  if(typeof calcSum_col10_row32_37 === "function") calcSum_col10_row32_37();     
+});
+   
+</script>
+  
+  <script>
+/* ===== รวมค่าตาม prefix ===== */
+function sumByPrefix(prefix){
+  let total = 0;
+  document.querySelectorAll(`[id^="${prefix}"]`).forEach(el => {
+    const v = parseInt(el.textContent || "0", 10);
+    if(!isNaN(v)) total += v;
+  });
+  return total;
+}
+
+/* ===== รวมแต่ละแถว ===== */
+document.querySelectorAll('[id^="sum-row-"]').forEach(td => {
+  const parts = td.id.split("-");
+  // sum-row-01-bag
+  const row = parts[2];
+  const type = parts[3];
+
+  let prefix = `cnt-${type}-`;
+
+  if(type === "all"){
+    const bag = sumByPrefix(`cnt-bag-`);
+    const roll = sumByPrefix(`cnt-roll-`);
+    td.textContent = bag + roll;
+  }else{
+    td.textContent = sumByPrefix(prefix);
+  }
+});
+</script>
+  <script>
+document.getElementById("sum-grand-bag").textContent =
+  sumByPrefix("cnt-bag-");
+
+document.getElementById("sum-grand-roll").textContent =
+  sumByPrefix("cnt-roll-");
+
+document.getElementById("sum-grand-all").textContent =
+  sumByPrefix("cnt-bag-") + sumByPrefix("cnt-roll-");
+</script>
+  <script>
+/* ===== CONFIG: กลุ่มเมือง ===== */
+const CITY_GROUPS = {
+  coknjem: ["3422034010", "3411034010", "3435034010"]
+};
+
+/* ===== นับหลายรหัส + แยกถุง / ROLL ===== */
+function COUNT_GROUP(codes, type){
+  return scanA.filter(v =>
+    v.type === type &&
+    codes.some(code => v.code.includes(code))
+  ).length;
+}
+
+/* ===== ใส่ค่าลงตาราง ===== */
+function fillGroup(groupKey){
+  const codes = CITY_GROUPS[groupKey];
+  if(!codes) return;
+
+  const bag  = COUNT_GROUP(codes, "bag");
+  const roll = COUNT_GROUP(codes, "roll");
+
+  const elBag  = document.getElementById(`g-bag-${groupKey}`);
+  const elRoll = document.getElementById(`g-roll-${groupKey}`);
+  const elAll  = document.getElementById(`g-all-${groupKey}`);
+
+  if(elBag)  elBag.textContent  = bag;
+  if(elRoll) elRoll.textContent = roll;
+  if(elAll)  elAll.textContent  = bag + roll;
+}
+
+/* ===== เรียกใช้งาน ===== */
+fillGroup("ubon");
+</script>
+  
+  <script>
+/* ===== Export เป็น HTML ===== */
+function exportHTML(){
+  const content = document.querySelector(".page-a4").outerHTML;
+
+  const html = `
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<title>ป.58 Export</title>
+<style>
+${document.querySelector("style").innerHTML}
+</style>
+</head>
+<body>
+${content}
+</body>
+</html>
+  `;
+
+  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "ป.58.html";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+/* ===== Export เป็น PDF ===== */
+function exportPDF(){
+  window.print();
+}
+</script>
+  <script>
+function goHome(){
+  // ✅ ถ้ามี history ให้กลับก่อน (ใช้กับ PWA ได้ดี)
+  if (history.length > 1) {
+    history.back();
+    return;
+  }
+  // ✅ fallback ไปหน้าแรกแบบชัวร์
+  location.href = "./index.html";
+}
+</script>
+  
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    const reg = await navigator.serviceWorker.register("./service-worker.js");
+    reg.update();
+  });
+}
+</script>
+  
+<script>
+function sumCells(ids, targetId){
+  let sum = 0;
+
+  ids.forEach(function(id){
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    const v = parseFloat((el.textContent || "0").replace(/,/g,"")) || 0;
+    sum += v;
+  });
+
+  const out = document.getElementById(targetId);
+  if(out) out.textContent = sum;
+}
+
+// ✅ รวมคอลัมน์ 2 แถว 5-39 (ถุงฝั่งซ้าย)
+  function calcSum_col2_row4_5(){
+  sumCells([
+    "cnt-bag-3419034010"
+  ], "sum-col2-row4to5");
+}
+function calcSum_col2_row6_12(){
+  sumCells([
+    "cnt-bag-3400034010",
+    "cnt-bag-3400134010",
+    "cnt-bag-0032034010",
+    "cnt-bag-0036134010",
+    "cnt-bag-0034234010",
+    "cnt-bag-0012934010",
+    "cnt-bag-0040334010"
+  ], "sum-col2-row6to12");
+}
+  function calcSum_col2_row13_14(){
+  sumCells([
+    "cnt-bag-3400234010",
+    "cnt-bag-3400334010"
+  ], "sum-col2-row13to14");
+}
+  function calcSum_col2_row15_18(){
+  sumCells([
+    "cnt-bag-3422034010",
+    "cnt-bag-3435034010",
+    "cnt-bag-3411034010",
+    "cnt-bag-0007434010"
+  ], "sum-col2-row15to18");
+}
+  function calcSum_col2_row19_20(){
+  sumCells([
+    "cnt-bag-3425034010",
+    "cnt-bag-3433034010"
+  ], "sum-col2-row19to20");
+}
+  function calcSum_col2_row21_24(){
+  sumCells([
+    "cnt-bag-3426034010",
+    "cnt-bag-3416034010",
+    "cnt-bag-0008634010",
+    "cnt-bag-0093334010"
+  ], "sum-col2-row21to24");
+}
+  function calcSum_col2_row25_26(){
+  sumCells([
+    "cnt-bag-3428034010",
+    "cnt-bag-3423034010"
+  ], "sum-col2-row25to26");
+}
+  function calcSum_col2_row27_30(){
+  sumCells([
+    "cnt-bag-3711034010",
+    "cnt-bag-3427034010",
+    "cnt-bag-3718034010",
+    "cnt-bag-3413034010"
+  ], "sum-col2-row27to30");
+}
+  function calcSum_col2_row31_34(){
+  sumCells([
+    "cnt-bag-3417034010",
+    "cnt-bag-3434034010",
+    "cnt-bag-3721034010"
+  ], "sum-col2-row31to34");
+}
+  function calcSum_col2_row35_37(){
+  sumCells([
+    "cnt-bag-3512034010",
+    "cnt-bag-3729034010",
+    "cnt-bag-3712034010"
+  ], "sum-col2-row35to37");
+}
+  function calcSum_col2_row38_39(){
+  sumCells([
+    "cnt-bag-3700034010",
+    "cnt-bag-0030834010"
+  ], "sum-col2-row38to39");
+}
+  
+  // ✅ รวมคอลัมน์ 9 แถว 5-39 (ถุงฝั่งขวา)
+  function calcSum_col9_row5_6(){
+  sumCells([
+    "cnt-bag-3322034010",
+    "cnt-bag-3316034010"
+  ], "sum-col9-row5to6");
+}
+  function calcSum_col9_row7_9(){
+  sumCells([
+    "cnt-bag-3511034010",
+    "cnt-bag-3513034010",
+    "cnt-bag-3415034010"
+  ], "sum-col9-row7to9");
+}
+  function calcSum_col9_row10_15(){
+  sumCells([
+    "cnt-bag-3514034010",
+    "cnt-bag-3517034010",
+    "cnt-bag-3500034010",
+    "cnt-bag-3518034010",
+    "cnt-bag-3432034010",
+    "cnt-bag-0033334010"
+  ], "sum-col9-row10to15");
+}
+  function calcSum_col9_row16_18(){
+  sumCells([
+    "cnt-bag-3515034010",
+    "cnt-bag-3414034010",
+    "cnt-bag-3724034010"
+  ], "sum-col9-row16to18");
+}
+  function calcSum_col9_row19_22(){
+  sumCells([
+    "cnt-bag-3311034010",
+    "cnt-bag-3325034010",
+    "cnt-bag-3436034010",
+    "cnt-bag-0042734010"
+  ], "sum-col9-row19to22");
+}
+  function calcSum_col9_row23_25(){
+  sumCells([
+    "cnt-bag-3314034010",
+    "cnt-bag-3318034010",
+    "cnt-bag-3315034010"
+  ], "sum-col9-row23to25");
+}
+  function calcSum_col9_row26_29(){
+  sumCells([
+    "cnt-bag-3516034010",
+    "cnt-bag-3319034010",
+    "cnt-bag-3313034010",
+    "cnt-bag-3431034010"
+  ], "sum-col9-row26to29");
+}
+  function calcSum_col9_row30_31(){
+  sumCells([
+    "cnt-bag-3312034010",
+    "cnt-bag-3321034010"
+  ], "sum-col9-row30to31");
+}
+  function calcSum_col9_row32_37(){
+  sumCells([
+    "cnt-bag-3300034010",
+    "cnt-bag-3317034010",
+    "cnt-bag-3323034010",
+    "cnt-bag-3324034010",
+    "cnt-bag-3327034010",
+    "cnt-bag-3300134010"
+  ], "sum-col9-row32to37");
+}
+   function calcSum_col3_row4_5(){
+  sumCells([
+    "cnt-roll-3419034010"
+  ], "sum-col3-row4to5");
+}
+  
+  // ✅ รวมคอลัมน์ 3 แถว 5-39 (roll ฝั่งซ้าย)
+  function calcSum_col3_row4_5(){
+  sumCells([
+    "cnt-roll-3419034010"
+  ], "sum-col3-row4to5");
+}
+function calcSum_col3_row6_12(){
+  sumCells([
+    "cnt-roll-3400034010",
+    "cnt-roll-3400134010",
+    "cnt-roll-0032034010",
+    "cnt-roll-0036134010",
+    "cnt-roll-0034234010",
+    "cnt-roll-0012934010",
+    "cnt-roll-0040334010"
+  ], "sum-col3-row6to12");
+}
+  function calcSum_col3_row13_14(){
+  sumCells([
+    "cnt-roll-3400234010",
+    "cnt-roll-3400334010"
+  ], "sum-col3-row13to14");
+}
+  function calcSum_col3_row15_18(){
+  sumCells([
+    "cnt-roll-3422034010",
+    "cnt-roll-3435034010",
+    "cnt-roll-3411034010",
+    "cnt-roll-0007434010"
+  ], "sum-col3-row15to18");
+}
+  function calcSum_col3_row19_20(){
+  sumCells([
+    "cnt-roll-3425034010",
+    "cnt-roll-3433034010"
+  ], "sum-col3-row19to20");
+}
+  function calcSum_col3_row21_24(){
+  sumCells([
+    "cnt-roll-3426034010",
+    "cnt-roll-3416034010",
+    "cnt-roll-0008634010",
+    "cnt-roll-0093334010"
+  ], "sum-col3-row21to24");
+}
+  function calcSum_col3_row25_26(){
+  sumCells([
+    "cnt-roll-3428034010",
+    "cnt-roll-3423034010"
+  ], "sum-col3-row25to26");
+}
+  function calcSum_col3_row27_30(){
+  sumCells([
+    "cnt-roll-3711034010",
+    "cnt-roll-3427034010",
+    "cnt-roll-3718034010",
+    "cnt-roll-3413034010"
+  ], "sum-col3-row27to30");
+}
+  function calcSum_col3_row31_34(){
+  sumCells([
+    "cnt-roll-3417034010",
+    "cnt-roll-3434034010",
+    "cnt-roll-3721034010"
+  ], "sum-col3-row31to34");
+}
+  function calcSum_col3_row35_37(){
+  sumCells([
+    "cnt-roll-3512034010",
+    "cnt-roll-3729034010",
+    "cnt-roll-3712034010"
+  ], "sum-col3-row35to37");
+}
+  function calcSum_col3_row38_39(){
+  sumCells([
+    "cnt-roll-3700034010",
+    "cnt-roll-0030834010"
+  ], "sum-col3-row38to39");
+}
+  
+  // ✅ รวมคอลัมน์ 10 แถว 5-39 (roll ฝั่งขวา)
+  function calcSum_col10_row5_6(){
+  sumCells([
+    "cnt-roll-3322034010",
+    "cnt-roll-3316034010"
+  ], "sum-col10-row5to6");
+}
+  function calcSum_col10_row7_9(){
+  sumCells([
+    "cnt-roll-3511034010",
+    "cnt-roll-3513034010",
+    "cnt-roll-3415034010"
+  ], "sum-col10-row7to9");
+}
+  function calcSum_col10_row10_15(){
+  sumCells([
+    "cnt-roll-3514034010",
+    "cnt-roll-3517034010",
+    "cnt-roll-3500034010",
+    "cnt-roll-3518034010",
+    "cnt-roll-3432034010",
+    "cnt-roll-0033334010"
+  ], "sum-col10-row10to15");
+}
+  function calcSum_col10_row16_18(){
+  sumCells([
+    "cnt-roll-3515034010",
+    "cnt-roll-3414034010",
+    "cnt-roll-3724034010"
+  ], "sum-col10-row16to18");
+}
+  function calcSum_col10_row19_22(){
+  sumCells([
+    "cnt-roll-3311034010",
+    "cnt-roll-3325034010",
+    "cnt-roll-3436034010",
+    "cnt-roll-0042734010"
+  ], "sum-col10-row19to22");
+}
+  function calcSum_col10_row23_25(){
+  sumCells([
+    "cnt-roll-3314034010",
+    "cnt-roll-3318034010",
+    "cnt-roll-3315034010"
+  ], "sum-col10-row23to25");
+}
+  function calcSum_col10_row26_29(){
+  sumCells([
+    "cnt-roll-3516034010",
+    "cnt-roll-3319034010",
+    "cnt-roll-3313034010",
+    "cnt-roll-3431034010"
+  ], "sum-col10-row26to29");
+}
+  function calcSum_col10_row30_31(){
+  sumCells([
+    "cnt-roll-3312034010",
+    "cnt-roll-3321034010"
+  ], "sum-col10-row30to31");
+}
+  function calcSum_col10_row32_37(){
+  sumCells([
+    "cnt-roll-3300034010",
+    "cnt-roll-3317034010",
+    "cnt-roll-3323034010",
+    "cnt-roll-3324034010",
+    "cnt-roll-3327034010",
+    "cnt-roll-3300134010"
+  ], "sum-col10-row32to37");
+}
+  
+</script>
+  
+<script>
+function goBack(){
+  if (window.history.length > 1) {
+    window.history.back();   // ✅ กลับไปหน้า index ที่เปิดมา
+  } else {
+    window.location.replace("/");
+  }
+}
+</script>
+  
+</body>
+</html>

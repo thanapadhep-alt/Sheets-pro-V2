@@ -5,73 +5,48 @@
     <title>ป.58 EMS</title>
 
     <style>
-      /* ===== A4 PRINT SETUP (FIXED) ===== */
+      /* ===== SCREEN (มือถือ/คอม) ===== */
+      html,
+      body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+      }
+      /* กล่องกระดาษ A4 */
+      .sheet {
+        width: 210mm;
+        background: #fff;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        padding: 0;
+      }
+
+      /* ✅ มือถือ: scale ให้พอดีกับจอ ไม่บีบตาราง */
+      @media screen and (max-width: 900px) {
+        .sheet {
+          transform-origin: top center;
+          transform: scale(calc((100vw - 28px) / 210mm));
+        }
+      }
+      /* ขนาดกระดาษ */
       @page {
         size: A4 portrait;
         margin: 10mm;
       }
 
-      /* ===== PRINT MODE (รวมให้เหลือชุดเดียว) ===== */
+      /* โหมดพิมพ์ */
       @media print {
         html,
         body {
-          font-size: 88% !important;
-        }
-        html,
-        body {
           width: 210mm;
-          height: 297mm;
-          margin: 0;
-          padding: 0;
+          height: 229mm;
+          font-size: 12px;
+          line-height: 1.3;
         }
-        body {
-          font-size: 90% !important;
-        }
-
-        * {
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
-        }
-
-        /* ซ่อนปุ่ม/เมนูที่ไม่ต้องการพิมพ์ */
-        .no-print,
-        .nav3,
-        button {
+        /* ✅ ซ่อนปุ่ม */
+        .no-print {
           display: none !important;
         }
-
-        /* เอาสีไฮไลท์ออกตอนพิมพ์ */
-        .hl-have,
-        .hl-warn {
-          background: none !important;
-        }
-
-        /* กันตารางแตกหน้า */
-        table,
-        tr,
-        td {
-          page-break-inside: avoid;
-        }
-
-        /* กันตัวอักษรบางจนเหมือนหาย */
-        .ritz .waffle td {
-          font-weight: 400 !important;
-        }
-      }
-
-      /* ===== A4 PRINT SETUP ===== */
-      /* ไม่ให้ตารางแตกหน้า */
-      table,
-      tr,
-      td {
-        page-break-inside: avoid;
-      }
-
-      /* ซ่อนสิ่งที่ไม่ต้องพิมพ์ */
-
-      .page-a4 {
-        box-sizing: border-box;
-        width: 100%;
       }
       /* ===== BUTTON STYLE ===== */
       .btn-export {
@@ -108,7 +83,7 @@
 
       body {
         margin: 0;
-        font-family: "TH Sarabun New", "Kanit", sans-serif;
+        font-family: "Angsana New", serif;
       }
       /* =====font style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
       .ritz .waffle a {
@@ -260,7 +235,7 @@
       <button onclick="exportPDF()" class="btn-export btn-pdf">🖨 Export PDF</button>
     </div>
 
-    <div class="page-a4">
+    <div class="sheet">
       <div class="ritz">
         <table class="waffle">
           <tbody>
@@ -269,7 +244,7 @@
             </tr>
 
             <tr>
-              <td class="s3" colspan="12">บัญชีรับ - ส่งมอบถุงไปรษณีย์ระหว่าง  HUB-ศป.นม. กับ ศป.อบ.</td>
+              <td class="s3" colspan="12">บัญชีรับ - ส่งมอบถุงไปรษณีย์ระหว่าง HUB-ศป.นม. กับ ศป.อบ.</td>
             </tr>
 
             <tr>
@@ -291,7 +266,6 @@
               <td class="s9"><br /></td>
               <td class="s9" colspan="2"><br /></td>
               <td class="s5"><br /></td>
-              
             </tr>
 
             <tr class="row-write">
@@ -308,39 +282,37 @@
               <td class="s8"><span style="font-size: 14.6667px; font-weight: 700">ต้นทาง</span></td>
               <td class="s8">ถุง</td>
               <td class="s8">Roll</td>
-              
             </tr>
 
             <tr>
               <td class="s7">ศป.ศรีราชา</td>
               <td class="s8" id="cnt-bag-2001034010"></td>
               <td class="s8" id="cnt-roll-2001034010"></td>
-              <td class="s7">ฉะเชิงเทรา<br></td>
+              <td class="s7">ฉะเชิงเทรา<br /></td>
               <td class="s8" id="cnt-bag-2400034010"></td>
               <td class="s8"></td>
-              <td class="s7">เกล็ดแก้ว<br></td>
+              <td class="s7">เกล็ดแก้ว<br /></td>
 
               <td class="s8"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
               <td class="s7">ศป.นครราชสีมา</td>
               <td class="s8" id="cnt-bag-3001034010"></td>
               <td class="s8" id="cnt-roll-3001034010"><br /></td>
-              <td class="s7">บ้านพระ<br></td>
+              <td class="s7">บ้านพระ<br /></td>
               <td class="s8" id="cnt-bag-2523034010"><br /></td>
               <td class="s8"></td>
-              <td class="s7">บ้านอำเภอ<br></td>
+              <td class="s7">บ้านอำเภอ<br /></td>
 
               <td class="s8" id="cnt-bag-2025034010"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s7"><br /></td>
+              <td class="s8"></td>
               <td class="s8"></td>
             </tr>
 
@@ -348,51 +320,48 @@
               <td class="s7">นครราชสีมา</td>
               <td class="s8" id="cnt-bag-30000234010"></td>
               <td class="s8"></td>
-              <td class="s7">บางคล้า<br></td>
+              <td class="s7">บางคล้า<br /></td>
               <td class="s8" id="cnt-bag-2411034010"></td>
               <td class="s8"></td>
-              <td class="s7">สยามอิสเทริ์น<br></td>
+              <td class="s7">สยามอิสเทริ์น<br /></td>
 
               <td class="s8"></td>
               <td class="s7 right"><br /></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
               <td class="s7">ปณย</td>
               <td class="s8" id="cnt-bag-0014734010"></td>
               <td class="s8"></td>
-              <td class="s7">ประจันตะคาม<br></td>
+              <td class="s7">ประจันตะคาม<br /></td>
               <td class="s8" id="cnt-bag-2513034010"></td>
               <td class="s8"></td>
-              <td class="s7">สี่แยกหนองซาก<br></td>
+              <td class="s7">สี่แยกหนองซาก<br /></td>
 
               <td class="s8"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
               <td class="s7">จอมสุรางค์</td>
               <td class="s8" id="cnt-bag-3000134010"></td>
               <td class="s8"></td>
-              <td class="s7">สรรคบุรี<br></td>
+              <td class="s7">สรรคบุรี<br /></td>
               <td class="s8" id="cnt-bag-1714034010"></td>
               <td class="s8"></td>
-              <td class="s7">ต.มาบตาพุด<br></td>
+              <td class="s7">ต.มาบตาพุด<br /></td>
 
               <td class="s8"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
@@ -402,545 +371,511 @@
               <td class="s7">พนมสารคาม</td>
               <td class="s8" id="cnt-bag-2412034010"></td>
               <td class="s8"></td>
-              <td class="s7">ปตท.แฮนด์ลิต<br></td>
+              <td class="s7">ปตท.แฮนด์ลิต<br /></td>
 
               <td class="s8"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-             
+              <td class="s8"></td>
             </tr>
 
             <tr>
               <td class="s7">ศป.กบินทร์บุรี</td>
               <td class="s8" id="cnt-bag-2501034010"></td>
               <td class="s8" id="cnt-roll-2501034010"></td>
-              <td class="s7">พนัสนิคม<br></td>
+              <td class="s7">พนัสนิคม<br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              <td class="s7">บ้านเกาะ<br></td>
+              <td class="s7">บ้านเกาะ<br /></td>
 
               <td class="s8"></td>
-              <td class="s8 right"><br></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s8 right"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
               <td class="s7">ศป.อยุธยา</td>
               <td class="s8" id="cnt-bag-1301034010"></td>
               <td class="s8" id="cnt-roll-1301034010"></td>
-              <td class="s7">พานทอง<br></td>
+              <td class="s7">พานทอง<br /></td>
               <td class="s8" id="cnt-bag-2016034010"></td>
               <td class="s8"></td>
-              <td class="s7">ชัยพฤกษ์<br></td>
+              <td class="s7">ชัยพฤกษ์<br /></td>
 
               <td class="s8" id="cnt-bag-2015134010"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
               <td class="s7">ศป.ราชบุรี</td>
               <td class="s8" id="cnt-bag-7001034010"></td>
               <td class="s8" id="cnt-roll-7001034010"></td>
-              <td class="s7">ดอนฉิมพลี<br></td>
+              <td class="s7">ดอนฉิมพลี<br /></td>
               <td class="s8" id="cnt-bag-2417034010"></td>
               <td class="s8"></td>
-              <td class="s7">นายายอาม<br></td>
+              <td class="s7">นายายอาม<br /></td>
 
               <td class="s8" id="cnt-bag-2216034010"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-             
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">คต.โรงเกลือ<br></td>
+              <td class="s7">คต.โรงเกลือ<br /></td>
               <td class="s8" id="cnt-bag-2712134010"></td>
-              <td class="s8"><br></td>
-              <td class="s7">บางวัว<br></td>
+              <td class="s8"><br /></td>
+              <td class="s7">บางวัว<br /></td>
               <td class="s8" id="cnt-bag-2418034010"></td>
               <td class="s8"></td>
               <td class="s7">ปลวกแดง</td>
 
               <td class="s8" id="cnt-bag-2114034010"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">ปราสาท  <br></td>
+              <td class="s7">ปราสาท <br /></td>
               <td class="s8" id="cnt-bag-3214034010"></td>
               <td class="s8"></td>
-              <td class="s7">แปลงยาว<br></td>
+              <td class="s7">แปลงยาว<br /></td>
               <td class="s8" id="cnt-bag-2419034010"></td>
               <td class="s8"></td>
-              <td class="s7">ทุ่งสุขลา<br></td>
+              <td class="s7">ทุ่งสุขลา<br /></td>
 
               <td class="s8" id="cnt-bag-2023334010"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">ช่องจอม<br></td>
+              <td class="s7">ช่องจอม<br /></td>
               <td class="s8" id="cnt-bag-0020934010"></td>
               <td class="s8"></td>
-              <td class="s7">ปราจีนบุรี<br></td>
+              <td class="s7">ปราจีนบุรี<br /></td>
               <td class="s8" id="cnt-bag-2500034010"></td>
               <td class="s8"></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
 
               <td class="s8"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">คต.เชฟวัน 2<br></td>
+              <td class="s7">คต.เชฟวัน 2<br /></td>
               <td class="s8" id="cnt-bag-0026734010"></td>
               <td class="s8"><br /></td>
-              <td class="s7">บางพระ<br></td>
+              <td class="s7">บางพระ<br /></td>
               <td class="s8" id="cnt-bag-2011134010"><br /></td>
               <td class="s8"></td>
-              <td class="s7">สะพานสี่<br></td>
+              <td class="s7">สะพานสี่<br /></td>
 
               <td class="s8"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">คต.โรงเกลือเบ็ญจา<br></td>
+              <td class="s7">คต.โรงเกลือเบ็ญจา<br /></td>
               <td class="s8" id="cnt-bag-0020334010"></td>
               <td class="s8"></td>
-              <td class="s7">ปะจันตคราม<br></td>
+              <td class="s7">ปะจันตคราม<br /></td>
               <td class="s8" id="cnt-bag-251304010"></td>
               <td class="s8"></td>
               <td class="s7">หัวหิน</td>
 
               <td class="s8"></td>
               <td class="s8 right"><br /></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">คต.เซฟวัน<br></td>
+              <td class="s7">คต.เซฟวัน<br /></td>
               <td class="s8" id="cnt-bag-0019734010"></td>
               <td class="s8"></td>
-              <td class="s7">บางน้ำเปรี้ยว<br></td>
+              <td class="s7">บางน้ำเปรี้ยว<br /></td>
               <td class="s8" id="cnt-bag-2415034010"></td>
               <td class="s8"></td>
-              <td class="s7">บ้านบึง<br></td>
+              <td class="s7">บ้านบึง<br /></td>
 
               <td class="s8" id="cnt-bag-2017034010"></td>
-              <td class="s8 left"><br></td>
+              <td class="s8 left"><br /></td>
               <td class="s7"></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              
             </tr>
 
             <tr>
-              <td class="s7">ปากช่อง<br></td>
+              <td class="s7">ปากช่อง<br /></td>
               <td class="s8" id="cnt-bag-3013034010"></td>
               <td class="s8"></td>
-              <td class="s7">หนองยายบู่<br></td>
+              <td class="s7">หนองยายบู่<br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              <td class="s7">สี่แยกเฉลิมไทย<br></td>
+              <td class="s7">สี่แยกเฉลิมไทย<br /></td>
 
               <td class="s8" id="cnt-bag-2000234010"></td>
-              <td class="s8 left"><br></td>
+              <td class="s8 left"><br /></td>
               <td class="s7"></td>
               <td class="s8"></td>
               <td class="s8"></td>
-             
             </tr>
 
             <tr>
-              <td class="s7">สี่คิ้ว<br></td>
+              <td class="s7">สี่คิ้ว<br /></td>
               <td class="s8" id="cnt-bag-3014034010"></td>
               <td class="s8"></td>
-              <td class="s7">อ่างทอง<br></td>
+              <td class="s7">อ่างทอง<br /></td>
               <td class="s8" id="cnt-bag-1400034010"></td>
               <td class="s8"></td>
-              <td class="s7">สวนผึ้ง<br></td>
+              <td class="s7">สวนผึ้ง<br /></td>
 
               <td class="s8"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-            
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">จอหอ<br></td>
+              <td class="s7">จอหอ<br /></td>
               <td class="s8" id="cnt-bag-3000434010"></td>
-              <td class="s8"><br></td>
-              <td class="s7">ศรีมโหสถ<br></td>
+              <td class="s8"><br /></td>
+              <td class="s7">ศรีมโหสถ<br /></td>
               <td class="s8" id="cnt-bag-2519034010"></td>
               <td class="s8"></td>
-              <td class="s7">หัวกุญแจ<br></td>
+              <td class="s7">หัวกุญแจ<br /></td>
 
               <td class="s8" id="cnt-bag-2022034010"></td>
-              <td class="s8 right"><br></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s8 right"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">โนนจิก<br></td>
+              <td class="s7">โนนจิก<br /></td>
               <td class="s8" id="cnt-bag-0037234010"></td>
               <td class="s8"></td>
-              <td class="s7">ดอนทอง<br></td>
+              <td class="s7">ดอนทอง<br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              <td class="s7">ปากน้ำประแสร์<br></td>
+              <td class="s7">ปากน้ำประแสร์<br /></td>
 
               <td class="s8" id="cnt-bag-2117034010"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">คต.มาบประชัน<br></td>
+              <td class="s7">คต.มาบประชัน<br /></td>
               <td class="s8" id="cnt-bag-0022234010"></td>
               <td class="s8"></td>
-              <td class="s7">แหลมฉบัง<br></td>
+              <td class="s7">แหลมฉบัง<br /></td>
               <td class="s8" id="cnt-bag-2023134010"></td>
               <td class="s8"></td>
-              <td class="s7">บุรีรัมย์<br></td>
+              <td class="s7">บุรีรัมย์<br /></td>
 
               <td class="s8" id="cnt-bag-3100034010"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-             
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">บางปะกง<br></td>
+              <td class="s7">บางปะกง<br /></td>
               <td class="s8" id="cnt-bag-2413034010"></td>
-              <td class="s8"><br></td>
-              <td class="s7">ทุ่งคอก<br></td>
+              <td class="s8"><br /></td>
+              <td class="s7">ทุ่งคอก<br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              <td class="s7">กบินทร์บุรี<br></td>
+              <td class="s7">กบินทร์บุรี<br /></td>
 
               <td class="s8" id="cnt-bag-2511034010"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">สนามชัยเขต<br></td>
+              <td class="s7">สนามชัยเขต<br /></td>
               <td class="s8" id="cnt-bag-2416034010"></td>
               <td class="s8"></td>
-              <td class="s7">นครนายก<br></td>
+              <td class="s7">นครนายก<br /></td>
               <td class="s8" id="cnt-bag-2600034010"></td>
               <td class="s8"></td>
-              <td class="s7">นิคมอุตสาหกรรม<br></td>
+              <td class="s7">นิคมอุตสาหกรรม<br /></td>
 
               <td class="s8"></td>
-              <td class="s8 left"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8 left"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-             
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">แหลมงอบ<br></td>
+              <td class="s7">แหลมงอบ<br /></td>
               <td class="s8" id="cnt-bag-2312034010"></td>
               <td class="s8"></td>
               <td class="s7">รร.จปร.</td>
               <td class="s8" id="cnt-bag-2600134010"></td>
               <td class="s8"></td>
-              <td class="s7">เกาะแก้ว<br></td>
+              <td class="s7">เกาะแก้ว<br /></td>
 
               <td class="s8" id="cnt-bag-8300034010"></td>
-              <td class="s8 right"><br></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s8 right"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">บ้านโพธิ์<br></td>
+              <td class="s7">บ้านโพธิ์<br /></td>
               <td class="s8" id="cnt-bag-2414034010"></td>
               <td class="s8"></td>
               <td class="s7">บ้านนา</td>
               <td class="s8" id="cnt-bag-2611034010"></td>
               <td class="s8"></td>
-              <td class="s7">ศป.ทุ่งสง<br></td>
+              <td class="s7">ศป.ทุ่งสง<br /></td>
 
               <td class="s8" id="cnt-bag-8001034010"></td>
-              <td class="s8" id="cnt-roll-8001034010"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8" id="cnt-roll-8001034010"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">คต.ทุ่งเบ็ญจา<br></td>
+              <td class="s7">คต.ทุ่งเบ็ญจา<br /></td>
               <td class="s8" id="cnt-bag-2217034010"></td>
               <td class="s8"></td>
-              <td class="s7">องค์รักษ์<br></td>
+              <td class="s7">องค์รักษ์<br /></td>
               <td class="s8" id="cnt-bag-2612034010"></td>
               <td class="s8"></td>
-              <td class="s7">ศป.ชุมพร<br></td>
+              <td class="s7">ศป.ชุมพร<br /></td>
 
               <td class="s8" id="cnt-bag-8601034010"></td>
-              <td class="s8" id="cnt-roll-8601034010"><br></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s8" id="cnt-roll-8601034010"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">บางแสน<br></td>
+              <td class="s7">บางแสน<br /></td>
               <td class="s8" id="cnt-bag-2013034010"></td>
-              <td class="s8"><br></td>
-              <td class="s7">ปากพลี<br></td>
+              <td class="s8"><br /></td>
+              <td class="s7">ปากพลี<br /></td>
               <td class="s8" id="cnt-bag-2613034010"></td>
               <td class="s8"></td>
-              <td class="s7">ศป.หาดใหญ่<br></td>
+              <td class="s7">ศป.หาดใหญ่<br /></td>
 
               <td class="s8" id="cnt-bag-9001034010"></td>
-              <td class="s8"  id="cnt-roll-9001034010"><br></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s8" id="cnt-roll-9001034010"><br /></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-             
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">คปณ.วิศิษฐ์<br></td>
+              <td class="s7">คปณ.วิศิษฐ์<br /></td>
               <td class="s8" id="cnt-bag-1411034010"></td>
               <td class="s8"></td>
-              <td class="s7">สระแก้ว<br></td>
+              <td class="s7">สระแก้ว<br /></td>
               <td class="s8" id="cnt-bag-2700034010"></td>
               <td class="s8"></td>
-              <td class="s7">PDSC EMS ภูเก็ต<br></td>
+              <td class="s7">PDSC EMS ภูเก็ต<br /></td>
 
               <td class="s8" id="cnt-bag-8377134010"></td>
               <td class="s8 right"><br /></td>
-              <td class="s7"><br></td>
-               <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-             
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">กลางดง<br></td>
+              <td class="s7">กลางดง<br /></td>
               <td class="s8" id="cnt-bag-3032034010"></td>
               <td class="s8"></td>
-              <td class="s7">อรัญประเทศ<br></td>
+              <td class="s7">อรัญประเทศ<br /></td>
               <td class="s8" id="cnt-bag-2712034010"></td>
               <td class="s8"></td>
-              <td class="s7">ท่าบุญมี<br></td>
+              <td class="s7">ท่าบุญมี<br /></td>
 
               <td class="s8" id="cnt-bag-2024034010"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-              
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">อ่าวอุดม<br></td>
+              <td class="s7">อ่าวอุดม<br /></td>
               <td class="s8"></td>
               <td class="s8"><br /></td>
-              <td class="s7">วัฒนานคร<br></td>
+              <td class="s7">วัฒนานคร<br /></td>
               <td class="s8" id="cnt-bag-2716034010"><br /></td>
               <td class="s8"></td>
-              <td class="s7">TDSC ราชบุรี(ชั่วคราว)<br></td>
+              <td class="s7">PDSC ราชบุรี<br /></td>
 
               <td class="s8" id="cnt-bag-7001134010"></td>
               <td class="s8" id="cnt-roll-7001134010"><br /></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-             
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">จันธานี(บางกะจะ)<br></td>
+              <td class="s7">จันธานี(บางกะจะ)<br /></td>
               <td class="s8" id="cnt-bag-2200134010"></td>
               <td class="s8"></td>
-              <td class="s7">ตาพระยา<br></td>
+              <td class="s7">ตาพระยา<br /></td>
               <td class="s8" id="cnt-bag-2718034010"></td>
               <td class="s8"></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
 
               <td class="s8"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-             
             </tr>
 
-
             <tr>
-              <td class="s7">นิคมพัฒนามาบข่า<br></td>
+              <td class="s7">นิคมพัฒนามาบข่า<br /></td>
               <td class="s8" id="cnt-bag-2118034010"></td>
               <td class="s8"></td>
-              <td class="s7">วังน้ำเย็น<br></td>
+              <td class="s7">วังน้ำเย็น<br /></td>
               <td class="s8" id="cnt-bag-2721034010"></td>
               <td class="s8"></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
 
               <td class="s8"></td>
               <td class="s8 right"><br /></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
               <td class="s8"><br /></td>
               <td class="s8"></td>
-             
             </tr>
 
             <tr>
-              <td class="s7">คปณ.เขาใหญ่<br></td>
+              <td class="s7">คปณ.เขาใหญ่<br /></td>
               <td class="s8" id="cnt-bag-3045034010"></td>
               <td class="s8"></td>
-              <td class="s7">วังสมบูรณ์<br></td>
+              <td class="s7">วังสมบูรณ์<br /></td>
               <td class="s8" id="cnt-bag-2725034010"></td>
               <td class="s8"></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
 
               <td class="s8"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              
             </tr>
 
             <tr>
-              <td class="s7">ชลบุรี<br></td>
+              <td class="s7">ชลบุรี<br /></td>
               <td class="s8" id="cnt-bag-2000034010"></td>
               <td class="s8"><br /></td>
-              <td class="s7">คลองหาด<br></td>
+              <td class="s7">คลองหาด<br /></td>
               <td class="s8" id="cnt-bag-2726034010"><br /></td>
               <td class="s8"></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
 
               <td class="s8"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
-              <td class="s8" ></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
-             
+              <td class="s8"></td>
             </tr>
 
             <tr>
-              <td class="s7">ปจ.ศรีราชา<br></td>
+              <td class="s7">ปจ.ศรีราชา<br /></td>
               <td class="s8" id="cnt-bag-2011034010"></td>
               <td class="s8"></td>
-              <td class="s7">สุพรรณบุรี<br></td>
+              <td class="s7">สุพรรณบุรี<br /></td>
               <td class="s8" id="cnt-bag-7200034010"></td>
               <td class="s8"></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
 
               <td class="s8"></td>
               <td class="s8 right"><br /></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
               <td class="s8"><br /></td>
               <td class="s8"></td>
-              
             </tr>
 
             <tr>
-              <td class="s7">จอมเทียน<br></td>
+              <td class="s7">จอมเทียน<br /></td>
               <td class="s8" id="cnt-bag-2026134010"></td>
               <td class="s8"></td>
-              <td class="s7">คลองใหญ่<br></td>
+              <td class="s7">คลองใหญ่<br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
 
               <td class="s8"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              
             </tr>
 
             <tr>
-              <td class="s7">บ่อวิน<br></td>
+              <td class="s7">บ่อวิน<br /></td>
               <td class="s8" id="cnt-bag-2023434010"></td>
               <td class="s8"></td>
-              <td class="s7">บ้านหมอ<br></td>
+              <td class="s7">บ้านหมอ<br /></td>
               <td class="s8" id="cnt-bag-1813034010"></td>
               <td class="s8"></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
 
               <td class="s8"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              
             </tr>
 
             <tr>
-              <td class="s7">หนองขาม<br></td>
+              <td class="s7">หนองขาม<br /></td>
               <td class="s8" id="cnt-bag-2023234010"></td>
               <td class="s8"></td>
-              <td class="s7">พัทยา<br></td>
+              <td class="s7">พัทยา<br /></td>
               <td class="s8" id="cnt-bag-2026034010"></td>
               <td class="s8"></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
 
               <td class="s8"></td>
               <td class="s8 left"><br /></td>
-              <td class="s7"><br></td>
+              <td class="s7"><br /></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              
             </tr>
 
-            
             <tr>
               <td class="s7 right"></td>
               <td class="s8"></td>
@@ -955,7 +890,6 @@
               <td class="s8"></td>
               <td class="s8"></td>
               <td class="s8"></td>
-              
             </tr>
             <tr>
               <td class="s1 right"></td>
@@ -967,11 +901,10 @@
               <td class="s1"></td>
 
               <td class="s19 center" colspan="2">รวม</td>
-              <td class="s7 right">ถุง<br/></td>
-             
+              <td class="s7 right">ถุง<br /></td>
+
               <td class="s8" id="sum-row-01-bag"></td>
               <td class="s8" id="sum-row-01-roll"></td>
-              
             </tr>
             <tr>
               <td class="s1 right"></td>
@@ -985,8 +918,7 @@
               <td class="s1"></td>
               <td class="s1"><br /></td>
               <td class="s1 center"></td>
-              <td class="s1" ></td>
-              
+              <td class="s1"></td>
             </tr>
             <tr>
               <td class="s1 right"></td>
@@ -1000,8 +932,7 @@
               <td class="s1"></td>
               <td class="s1"><br /></td>
               <td class="s1 center"></td>
-              <td class="s1" ></td>
-            
+              <td class="s1"></td>
             </tr>
 
             <!-- ====== (ตารางยาว: แถวอื่น ๆ ให้คัดลอกต่อได้เลยจากต้นฉบับ) ====== -->
@@ -1239,7 +1170,7 @@
     <script>
       /* ===== Export เป็น HTML ===== */
       function exportHTML() {
-        const content = document.querySelector(".page-a4").outerHTML;
+        const content = document.querySelector(".sheet").outerHTML;
 
         // ===== วันที่ปัจจุบัน (พ.ศ.) =====
         const d = new Date();

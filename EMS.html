@@ -5,73 +5,48 @@
     <title>ป.58 EMS</title>
 
     <style>
-      /* ===== A4 PRINT SETUP (FIXED) ===== */
+      /* ===== SCREEN (มือถือ/คอม) ===== */
+      html,
+      body {
+        width: 210mm;
+        height: 320mm;
+        margin: 0;
+        padding: 0;
+      }
+      /* กล่องกระดาษ A4 */
+      .sheet {
+        width: 210mm;
+        background: #fff;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        padding: 0;
+      }
+
+      /* ✅ มือถือ: scale ให้พอดีกับจอ ไม่บีบตาราง */
+      @media screen and (max-width: 900px) {
+        .sheet {
+          transform-origin: top center;
+          transform: scale(calc((100vw - 28px) / 210mm));
+        }
+      }
+      /* ขนาดกระดาษ */
       @page {
         size: A4 portrait;
         margin: 10mm;
       }
 
-      /* ===== PRINT MODE (รวมให้เหลือชุดเดียว) ===== */
+      /* โหมดพิมพ์ */
       @media print {
         html,
         body {
-          font-size: 88% !important;
+          width: 210mm;
+          height: 270mm;
+          font-size: 12px;
+          line-height: 1.1;
         }
-        html,
-        body {
-          width: 250mm;
-          height: 337mm;
-          margin: 0;
-          padding: 0;
-        }
-        body {
-          font-size: 90% !important;
-        }
-
-        * {
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
-        }
-
-        /* ซ่อนปุ่ม/เมนูที่ไม่ต้องการพิมพ์ */
-        .no-print,
-        .nav3,
-        button {
+        /* ✅ ซ่อนปุ่ม */
+        .no-print {
           display: none !important;
         }
-
-        /* เอาสีไฮไลท์ออกตอนพิมพ์ */
-        .hl-have,
-        .hl-warn {
-          background: none !important;
-        }
-
-        /* กันตารางแตกหน้า */
-        table,
-        tr,
-        td {
-          page-break-inside: avoid;
-        }
-
-        /* กันตัวอักษรบางจนเหมือนหาย */
-        .ritz .waffle td {
-          font-weight: 400 !important;
-        }
-      }
-
-      /* ===== A4 PRINT SETUP ===== */
-      /* ไม่ให้ตารางแตกหน้า */
-      table,
-      tr,
-      td {
-        page-break-inside: avoid;
-      }
-
-      /* ซ่อนสิ่งที่ไม่ต้องพิมพ์ */
-
-      .page-a4 {
-        box-sizing: border-box;
-        width: 100%;
       }
       /* ===== BUTTON STYLE ===== */
       .btn-export {
@@ -108,7 +83,7 @@
 
       body {
         margin: 0;
-        font-family: "TH Sarabun New", "Kanit", sans-serif;
+        font-family: "Angsana New", serif;
       }
       /* =====font style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
       .ritz .waffle a {
@@ -233,7 +208,7 @@
       }
       .row-write td {
         padding-top: 1px;
-        padding-bottom: 8px;
+        padding-bottom: 2px;
       }
       table.waffle {
         border: 2px solid #000;
@@ -260,7 +235,7 @@
       <button onclick="exportPDF()" class="btn-export btn-pdf">🖨 Export PDF</button>
     </div>
 
-    <div class="page-a4">
+    <div class="sheet">
       <div class="ritz">
         <table class="waffle">
           <tbody>
@@ -280,7 +255,7 @@
 
             <!-- ====== ตารางจริง (ยกมาจากต้นฉบับ) ====== -->
 
-            <tr class="row-write">
+            <tr>
               <td class="s5"><br /></td>
               <td class="s9" colspan="2"></td>
               <td class="s9"><br /></td>
@@ -685,7 +660,7 @@
               <td class="s8"></td>
               <td class="s7">แสมดำ</td>
 
-              <td class="s8" id="cnt-bag-0021134010"></td>
+              <td class="s8" id="cnt-bag-0022134010"></td>
               <td class="s8 left"><br /></td>
               <td class="s7">SCB รัชโยธิน</td>
               <td class="s8" id="cnt-bag-1090934010"></td>
@@ -773,7 +748,7 @@
 
             <tr>
               <td class="s7">เซ็นทรัสซิติ้บางนา</td>
-              <td class="s8" id="cnt-bag-1026434010"></td>
+              <td class="s8" id="cnt-bag-10264334010"></td>
               <td class="s8"></td>
               <td class="s7">ไปรษณีย์กลาง</td>
               <td class="s8" id="cnt-bag-1050134010"></td>
@@ -1342,8 +1317,8 @@
               <td class="s1"></td>
 
               <td class="s19" colspan="2">รวม</td>
-              <td class="s7 right">ถุง<br/></td>
-             
+              <td class="s7 right">ถุง<br /></td>
+
               <td class="s8" id="sum-row-01-bag"></td>
               <td class="s8" id="sum-row-01-roll"></td>
               <td class="s8">Roll</td>
@@ -1362,7 +1337,7 @@
               <td class="s1"></td>
               <td class="s1"><br /></td>
               <td class="s1 center"></td>
-              <td class="s1" ></td>
+              <td class="s1"></td>
               <td class="s1"></td>
               <td class="s1"></td>
               <td class="s1"></td>
@@ -1379,7 +1354,7 @@
               <td class="s1"></td>
               <td class="s1"><br /></td>
               <td class="s1 center"></td>
-              <td class="s1" ></td>
+              <td class="s1"></td>
               <td class="s1"></td>
               <td class="s1"></td>
               <td class="s1"></td>
@@ -1620,7 +1595,7 @@
     <script>
       /* ===== Export เป็น HTML ===== */
       function exportHTML() {
-        const content = document.querySelector(".page-a4").outerHTML;
+        const content = document.querySelector(".sheet").outerHTML;
 
         // ===== วันที่ปัจจุบัน (พ.ศ.) =====
         const d = new Date();

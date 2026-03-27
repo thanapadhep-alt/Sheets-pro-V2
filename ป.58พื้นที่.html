@@ -5,74 +5,48 @@
     <title>ป.58 พิเศษ</title>
 
     <style>
-      /* ===== A4 PRINT SETUP (FIXED) ===== */
-      @page {
-        size: A4 portrait;
-        margin: 10mm;
-      }
+     /* ===== SCREEN (มือถือ/คอม) ===== */
+ html, body{
+  width: 210mm;
+  height: 320mm;
+  margin: 0;
+  padding: 0;
+}
+/* กล่องกระดาษ A4 */
+.sheet{
+  width:210mm;
+  background:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  padding:0;
+}
 
-      /* ===== PRINT MODE (รวมให้เหลือชุดเดียว) ===== */
-      @media print {
-        html,
-        body {
-          font-size: 88% !important;
-        }
-        html,
-        body {
-          width: 240mm;
-          height: 327mm;
-          margin: 0;
-          padding: 0;
-        }
-        body {
-          font-size: 90% !important;
-        }
+/* ✅ มือถือ: scale ให้พอดีกับจอ ไม่บีบตาราง */
+@media screen and (max-width: 900px){
+  .sheet{
+    transform-origin: top center;
+    transform: scale(calc((100vw - 28px) / 210mm));
+  }
+}
+ /* ขนาดกระดาษ */
+@page{
+  size: A4 portrait;
+  margin: 10mm;
+}
 
-        * {
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
-        }
+/* โหมดพิมพ์ */
+@media print{
 
-        /* ซ่อนปุ่ม/เมนูที่ไม่ต้องการพิมพ์ */
-        .no-print,
-        .nav3,
-        button {
-          display: none !important;
-        }
-
-        /* เอาสีไฮไลท์ออกตอนพิมพ์ */
-        .hl-have,
-        .hl-warn {
-          background: none !important;
-        }
-
-        /* กันตารางแตกหน้า */
-        table,
-        tr,
-        td {
-          page-break-inside: avoid;
-        }
-
-        /* กันตัวอักษรบางจนเหมือนหาย */
-        .ritz .waffle td {
-          font-weight: 400 !important;
-        }
-      }
-
-      /* ===== A4 PRINT SETUP ===== */
-      /* ไม่ให้ตารางแตกหน้า */
-      table,
-      tr,
-      td {
-        page-break-inside: avoid;
-      }
-
-      /* ซ่อนสิ่งที่ไม่ต้องพิมพ์ */
-
-      .page-a4 {
-        box-sizing: border-box;
-        width: 100%;
-      }
+  html,body{
+    width:210mm;
+    height:229mm;
+    font-size:12px;
+    line-height:1.3;
+  }
+/* ✅ ซ่อนปุ่ม */
+  .no-print{
+    display:none !important;
+  }
+}
       /* ===== BUTTON STYLE ===== */
       .btn-export {
         padding: 15px 39px;
@@ -108,7 +82,7 @@
 
       body {
         margin: 0;
-        font-family: "TH Sarabun New", "Kanit", sans-serif;
+        font-family: "Angsana New", serif;
       }
       /* =====font style จาก Google Sheets (คงไว้เฉพาะที่ใช้จริง) ===== */
       .ritz .waffle a {
@@ -158,7 +132,7 @@
       .ritz .waffle .s3 {
         text-align: center;
         font-weight: bold;
-        font-size: 10pt;
+        font-size: 14pt;
       }
       .ritz .waffle .s10 {
         border-bottom: 1px dotted #000;
@@ -207,7 +181,7 @@
       .ritz .waffle .s4 {
         border-bottom: 1px solid #000;
         text-align: center;
-        font-size: 10pt;
+        font-size: 12pt;
       }
       .ritz .waffle .s5 {
         border-bottom: 1px solid #000;
@@ -230,7 +204,7 @@
         border-collapse: collapse;
       }
       .row-write td {
-        padding-top: 30px;
+        padding-top: 14px;
         padding-bottom: 8px;
       }
       table.waffle {
@@ -258,7 +232,7 @@
       <button onclick="exportPDF()" class="btn-export btn-pdf">🖨 Export PDF</button>
     </div>
 
-    <div class="page-a4">
+    <div class="sheet">
       <div class="ritz">
         <table class="waffle">
           <tbody>
@@ -278,7 +252,7 @@
 
             <!-- ====== ตารางจริง (ยกมาจากต้นฉบับ) ====== -->
 
-            <tr class="row-write">
+            <tr>
               <td class="s5">ต้นทาง</td>
               <td class="s5" colspan="2">ศป.อุบลฯ</td>
               <td class="s5">ศป.นม.</td>
@@ -1142,9 +1116,9 @@
             <!-- ====== (ตารางยาว: แถวอื่น ๆ ให้คัดลอกต่อได้เลยจากต้นฉบับ) ====== -->
 
             <tr class="row-write">
-              <td class="s1" colspan="7">ลงชื่อ..................................... ผู้ส่งมอบ</td>
+              <td class="s1" colspan="7">ลงชื่อ.................................................. ผู้ส่งมอบ</td>
               <td></td>
-              <td class="s1" colspan="7">ลงชื่อ..................................... ผู้รับมอบ</td>
+              <td class="s1" colspan="7">ลงชื่อ.................................................. ผู้รับมอบ</td>
             </tr>
 
             <tr class="row-write">
@@ -1153,7 +1127,7 @@
                 <span id="d2-time"></span> น.
               </td>
               <td></td>
-              <td class="s1" colspan="7">วันที่ ........ เดือน ........ พ.ศ. ........ เวลา ........ น.</td>
+              <td class="s1" colspan="7">วันที่ ............. เดือน .............พ.ศ.............เวลา............. น.</td>
             </tr>
           </tbody>
         </table>
@@ -1374,7 +1348,7 @@
     <script>
       /* ===== Export เป็น HTML ===== */
       function exportHTML() {
-        const content = document.querySelector(".page-a4").outerHTML;
+        const content = document.querySelector(".sheet").outerHTML;
 
         const html = `
 <!doctype html>
@@ -1392,16 +1366,24 @@ ${content}
 </html>
   `;
 
-        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
+      // ✅ วันที่ชื่อไฟล์อัตโนมัติ
+  const now = new Date();
+  const yyyy = now.getFullYear(); // ถ้าต้องการ พ.ศ. ให้ +543
+  const mm = String(now.getMonth() + 1).padStart(2, "0");
+  const dd = String(now.getDate()).padStart(2, "0");
+  const dateStr = `${yyyy}-${mm}-${dd}`; // 2026-01-23
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "ป.58.html";
-        a.click();
+  const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
 
-        URL.revokeObjectURL(url);
-      }
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `ป.58-${dateStr}.html`;   // ✅ ชื่อไฟล์มีวันที่
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
 
       /* ===== Export เป็น PDF ===== */
       function exportPDF() {

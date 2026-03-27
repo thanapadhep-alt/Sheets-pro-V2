@@ -14,7 +14,7 @@
 
     <style>
       :root {
-        --primary: #ff8fb1;
+        --primary: #ff6f00;
         --danger: #ff6b6b;
         --bg: #fdf6f9;
         --card: #ffffff;
@@ -136,7 +136,7 @@
       <!-- HEADER -->
       <div class="header">
         <div class="header-top">
-          <strong>Sheets Pro 💕</strong>
+          <strong>Sheets Pro 🖋📋</strong>
 
           <button class="btn-primary" id="saveXlsx">Save XLSX</button>
           <button class="btn-primary" id="saveHtml">Save HTML</button>
@@ -144,14 +144,18 @@
           <button class="btn-danger" id="resetBtn">Reset</button>
           <button class="btn-danger btn-round" id="undoBtn">⟲</button>
           <button class="btn-primary btn-round" id="redoBtn">⟳</button>
-          </div> 
-        
-        <div class="header-top">  
-          <button class="btn-primary" id="openP58">เปิดแบบ ป.58</button>
-          <button class="btn-primary" id="openSCB">เปิดแบบ SCB</button>
-          <button class="btn-primary" id="openEMS">เปิดแบบ EMS</button>
-          <button class="btn-primary" id="openNM">เปิดแบบ นม</button>
-          <button class="btn-primary" id="openKG">เปิดแบบ ขก</button>
+        </div>
+
+        <div class="header-top">
+          <button class="btn-primary" id="toggleMenu">เปิดแบบ ▼</button>
+        </div>
+
+        <div class="header-top" id="subMenu" style="display: none">
+          <button class="btn-primary" id="openP58">ป.58</button>
+          <button class="btn-primary" id="openSCB">SCB</button>
+          <button class="btn-primary" id="openEMS">EMS</button>
+          <button class="btn-primary" id="openNM">นม.</button>
+          <button class="btn-primary" id="openKG">ขก.</button>
         </div>
 
         <div class="header-bottom">
@@ -167,6 +171,16 @@
     </div>
 
     <script>
+      const toggleMenu = document.getElementById("toggleMenu");
+      const subMenu = document.getElementById("subMenu");
+
+      toggleMenu.onclick = () => {
+        const isOpen = subMenu.style.display === "flex";
+
+        subMenu.style.display = isOpen ? "none" : "flex";
+        toggleMenu.textContent = isOpen ? "เปิดแบบ ▼" : "ปิดแบบ ▲";
+      };
+
       /* ===== CONFIG ===== */
       const ROWS = 501;
       const COLS = 3;
@@ -465,190 +479,52 @@
         a.download = name;
         a.click();
       };
-
       function exportScanColumnA() {
         const result = [];
 
         for (let r = 1; r < data.length; r++) {
-          const bagCode = String(data[r][0] || "").trim(); // A = ถุง
-          const rollCode = String(data[r][1] || "").trim(); // D = ROLL
+          const bagCode = String(data[r][0] || "").trim();
+          const rollCode = String(data[r][1] || "").trim();
 
-          // ถุง
           if (bagCode) {
-            result.push({
-              code: bagCode,
-              type: "bag"
-            });
+            result.push({ code: bagCode, type: "bag" });
           }
 
-          // ROLL
           if (rollCode) {
-            result.push({
-              code: rollCode,
-              type: "roll"
-            });
+            result.push({ code: rollCode, type: "roll" });
           }
         }
 
         localStorage.setItem("scan-A", JSON.stringify(result));
-      }
-
-      openP58.onclick = () => {
-        exportScanColumnA();
-        location.href = "./ป.58พื้นที่.html";
-      };
-
-      const btnP58 = document.getElementById("openP58");
-      if (btnP58) {
-        btnP58.onclick = () => {
-          exportScanColumnA(); // เตรียมข้อมูล (แม้ยังไม่ใช้ก็ไม่เป็นไร)
-          location.href = "./ป.58พื้นที่.html";
-        };
       }
       function exportScanColumnEV() {
         const ev = [];
 
         for (let r = 1; r < data.length; r++) {
-          const evCode = String(data[r][2] || "").trim(); // ✅ EV อยู่คอลัมน์ที่ 2
+          const evCode = String(data[r][2] || "").trim(); // EV = คอลัมน์ที่ 2
           if (evCode) ev.push(evCode);
         }
 
         localStorage.setItem("scan-EV", JSON.stringify(ev));
-        console.log("✅ scan-EV saved:", ev.length);
       }
-      const openSCB = document.getElementById("openSCB");
-      if (openSCB) {
-        openSCB.onclick = () => {
-          exportScanColumnEV(); // ✅ export EV อัตโนมัติ
-          location.href = "./SCB.html";
-        };
-      }
-      function exportScanColumnA() {
-        const result = [];
 
-        for (let r = 1; r < data.length; r++) {
-          const bagCode = String(data[r][0] || "").trim(); // A = ถุง
-          const rollCode = String(data[r][1] || "").trim(); // D = ROLL
-
-          // ถุง
-          if (bagCode) {
-            result.push({
-              code: bagCode,
-              type: "bag"
-            });
-          }
-
-          // ROLL
-          if (rollCode) {
-            result.push({
-              code: rollCode,
-              type: "roll"
-            });
-          }
+      function openPage(url, exportType = "A") {
+        if (exportType === "A") {
+          exportScanColumnA();
+        } else if (exportType === "EV") {
+          exportScanColumnEV();
         }
 
-        localStorage.setItem("scan-A", JSON.stringify(result));
+        location.href = url;
       }
+      openP58.onclick = () => openPage("./ป.58พื้นที่.html", "A");
+      openEMS.onclick = () => openPage("./EMS.html", "A");
+      openNM.onclick = () => openPage("./NM.html", "A");
+      openKG.onclick = () => openPage("./KG.html", "A");
 
-      openEMS.onclick = () => {
-        exportScanColumnA();
-        location.href = "./EMS.html";
-      };
-
-      const btnEMS = document.getElementById("openEMS");
-      if (btnEMS) {
-        btnEMS.onclick = () => {
-          exportScanColumnA(); // เตรียมข้อมูล (แม้ยังไม่ใช้ก็ไม่เป็นไร)
-          location.href = "./EMS.html";
-        };
-      }
-      function exportScanColumnA() {
-        const result = [];
-
-        for (let r = 1; r < data.length; r++) {
-          const bagCode = String(data[r][0] || "").trim(); // A = ถุง
-          const rollCode = String(data[r][1] || "").trim(); // D = ROLL
-
-          // ถุง
-          if (bagCode) {
-            result.push({
-              code: bagCode,
-              type: "bag"
-            });
-          }
-
-          // ROLL
-          if (rollCode) {
-            result.push({
-              code: rollCode,
-              type: "roll"
-            });
-          }
-        }
-
-        localStorage.setItem("scan-A", JSON.stringify(result));
-      }
-
-      openNM.onclick = () => {
-        exportScanColumnA();
-        location.href = "./NM.html";
-      };
-
-      const btnNM = document.getElementById("openNM");
-      if (btnNM) {
-        btnNM.onclick = () => {
-          exportScanColumnA(); // เตรียมข้อมูล (แม้ยังไม่ใช้ก็ไม่เป็นไร)
-          location.href = "./NM.html";
-        };
-      }
-       function exportScanColumnA() {
-        const result = [];
-
-        for (let r = 1; r < data.length; r++) {
-          const bagCode = String(data[r][0] || "").trim(); // A = ถุง
-          const rollCode = String(data[r][1] || "").trim(); // D = ROLL
-
-          // ถุง
-          if (bagCode) {
-            result.push({
-              code: bagCode,
-              type: "bag"
-            });
-          }
-
-          // ROLL
-          if (rollCode) {
-            result.push({
-              code: rollCode,
-              type: "roll"
-            });
-          }
-        }
-
-        localStorage.setItem("scan-A", JSON.stringify(result));
-      }
-
-      openKG.onclick = () => {
-        exportScanColumnA();
-        location.href = "./KG.html";
-      };
-
-      const btnKG = document.getElementById("openKG");
-      if (btnKG) {
-        btnKG.onclick = () => {
-          exportScanColumnA(); // เตรียมข้อมูล (แม้ยังไม่ใช้ก็ไม่เป็นไร)
-          location.href = "./KG.html";
-        };
-      }
+      openSCB.onclick = () => openPage("./SCB.html", "EV");
     </script>
 
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker.register("service-worker.js");
-        });
-      }
-    </script>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", async () => {

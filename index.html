@@ -293,30 +293,31 @@ toggleMenu.onclick = () => {
     const newValue = editor.value.trim();
 
     // ✅ ตรวจซ้ำทั้งตาราง (ยกเว้น cell ปัจจุบัน)
-    let dupPos = null;
+    let isDuplicate = false;
 
-for (let r = 1; r < data.length; r++) {
-  for (let c = 0; c < COLS; c++) {
-    if (r === cur.r && c === cur.c) continue;
+    for (let r = 1; r < data.length; r++) {
+      for (let c = 0; c < COLS; c++) {
 
-    if (data[r][c].trim() === newValue && newValue !== "") {
-      dupPos = { r, c };
-      break;
+        if (r === cur.r && c === cur.c) continue; // ข้ามตัวเอง
+
+        if (data[r][c].trim() === newValue && newValue !== "") {
+          isDuplicate = true;
+          break;
+        }
+      }
+      if (isDuplicate) break;
     }
-  }
-  if (dupPos) break;
-}
 
-if (dupPos) {
-  alert(`❌ ซ้ำกับแถว ${dupPos.r}`);
+    // ❌ ถ้าซ้ำ → ไม่ให้บันทึก
+   if (isDuplicate) {
+  alert("❌ ข้อมูลซ้ำ! ห้ามบันทึก");
 
-  editor.value = data[cur.r][cur.c];
-  editor.select();
-
-  // 🎯 เลื่อนไปหาตัวที่ซ้ำ
-  cur = dupPos;
-  render();
-  requestAnimationFrame(() => centerRow(cur.r));
+  // ❗ ไม่ต้อง reset ค่า (ค้างค่าที่พิมพ์ไว้)
+  // ✅ เลือกข้อความทั้งหมดทันที
+  setTimeout(() => {
+    editor.focus();
+    editor.select();
+  }, 0);
 
   return;
 }

@@ -24,7 +24,7 @@
 
   --row-alt: #fff7f3;   /* เปลี่ยนให้เข้ากับส้ม */
   --active: #FFB38A;    /* ใช้โทนเดียวกับ palette */
-  --duplicate: #fff0c2;
+  --duplicate: #ecbb25;
 }
       body {
         margin: 0;
@@ -287,19 +287,57 @@ toggleMenu.onclick = () => {
       };
 
       /* ===== EDIT ===== */
-      editor.onkeydown = (e) => {
-        if (e.key === "Enter" && cur.r) {
-          undoStack.push(snapshot());
-          redoStack.length = 0;
-          data[cur.r][cur.c] = editor.value.trim();
-          saveLocal();
-          cur.r = Math.min(cur.r + 1, ROWS - 1);
-          render();
-          editor.value = data[cur.r][cur.c];
-          editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
-          requestAnimationFrame(() => centerRow(cur.r));
-        }
-      };
+     editor.onkeydown = (e) => {
+  if (e.key === "Enter" && cur.r) {
+
+    const newValue = editor.value.trim();
+
+    // ✅ ตรวจซ้ำทั้งตาราง (ยกเว้น cell ปัจจุบัน)
+    let dupPos = null;
+
+for (let r = 1; r < data.length; r++) {
+  for (let c = 0; c < COLS; c++) {
+    if (r === cur.r && c === cur.c) continue;
+
+    if (data[r][c].trim() === newValue && newValue !== "") {
+      dupPos = { r, c };
+      break;
+    }
+  }
+  if (dupPos) break;
+}
+
+if (dupPos) {
+  alert(`❌ ซ้ำกับแถว ${dupPos.r}`);
+
+  editor.value = data[cur.r][cur.c];
+  editor.select();
+
+  // 🎯 เลื่อนไปหาตัวที่ซ้ำ
+  cur = dupPos;
+  render();
+  requestAnimationFrame(() => centerRow(cur.r));
+
+  return;
+}
+
+    // ✅ ปกติ
+    undoStack.push(snapshot());
+    redoStack.length = 0;
+
+    data[cur.r][cur.c] = newValue;
+
+    saveLocal();
+
+    cur.r = Math.min(cur.r + 1, ROWS - 1);
+    render();
+
+    editor.value = data[cur.r][cur.c];
+    editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
+
+    requestAnimationFrame(() => centerRow(cur.r));
+  }
+};
 
       /* ===== UNDO / REDO ===== */
       undoBtn.onclick = () => {

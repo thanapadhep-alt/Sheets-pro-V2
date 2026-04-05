@@ -14,8 +14,8 @@
 
     <style>
       :root {
-        --primary: #ff6f00;
-        --danger: #ff6b6b;
+        --primary: #FF9E7A;
+        --danger:#FFB38A;
         --bg: #fdf6f9;
         --card: #ffffff;
         --grid: #d0d0d0;
@@ -136,7 +136,7 @@
       <!-- HEADER -->
       <div class="header">
         <div class="header-top">
-          <strong>Sheets Pro 🖋📋</strong>
+          <strong>Sheets Pro 💕</strong>
 
           <button class="btn-primary" id="saveXlsx">Save XLSX</button>
           <button class="btn-primary" id="saveHtml">Save HTML</button>
@@ -144,19 +144,20 @@
           <button class="btn-danger" id="resetBtn">Reset</button>
           <button class="btn-danger btn-round" id="undoBtn">⟲</button>
           <button class="btn-primary btn-round" id="redoBtn">⟳</button>
-        </div>
-
+          </div> 
+        
         <div class="header-top">
-          <button class="btn-primary" id="toggleMenu">เปิดแบบ ▼</button>
-        </div>
+  <button class="btn-primary" id="toggleMenu">เปิดแบบ ▼</button>
+</div>
 
-        <div class="header-top" id="subMenu" style="display: none">
-          <button class="btn-primary" id="openP58">ป.58</button>
-          <button class="btn-primary" id="openSCB">SCB</button>
-          <button class="btn-primary" id="openEMS">EMS</button>
-          <button class="btn-primary" id="openNM">นม.</button>
-          <button class="btn-primary" id="openKG">ขก.</button>
-        </div>
+<div class="header-top" id="subMenu" style="display:none;">
+  <button class="btn-primary" id="openP58">ป.58</button>
+  <button class="btn-primary" id="openSCB">SCB</button>
+  <button class="btn-primary" id="openEMS">EMS</button>
+  <button class="btn-primary" id="openNM">นม.</button>
+  <button class="btn-primary" id="openKG">ขก.</button>
+</div>
+      
 
         <div class="header-bottom">
           <span id="editorInfo">เลือก cell</span>
@@ -172,14 +173,14 @@
 
     <script>
       const toggleMenu = document.getElementById("toggleMenu");
-      const subMenu = document.getElementById("subMenu");
+const subMenu = document.getElementById("subMenu");
 
-      toggleMenu.onclick = () => {
-        const isOpen = subMenu.style.display === "flex";
-
-        subMenu.style.display = isOpen ? "none" : "flex";
-        toggleMenu.textContent = isOpen ? "เปิดแบบ ▼" : "ปิดแบบ ▲";
-      };
+toggleMenu.onclick = () => {
+  const isOpen = subMenu.style.display === "flex";
+  
+  subMenu.style.display = isOpen ? "none" : "flex";
+  toggleMenu.textContent = isOpen ? "เปิดแบบ ▼" : "ปิดแบบ ▲";
+};
 
       /* ===== CONFIG ===== */
       const ROWS = 501;
@@ -480,51 +481,55 @@
         a.click();
       };
       function exportScanColumnA() {
-        const result = [];
+  const result = [];
 
-        for (let r = 1; r < data.length; r++) {
-          const bagCode = String(data[r][0] || "").trim();
-          const rollCode = String(data[r][1] || "").trim();
+  for (let r = 1; r < data.length; r++) {
+    const bagCode = String(data[r][0] || "").trim();
+    const rollCode = String(data[r][1] || "").trim();
 
-          if (bagCode) {
-            result.push({ code: bagCode, type: "bag" });
-          }
+    if (bagCode) {
+      result.push({ code: bagCode, type: "bag" });
+    }
 
-          if (rollCode) {
-            result.push({ code: rollCode, type: "roll" });
-          }
-        }
+    if (rollCode) {
+      result.push({ code: rollCode, type: "roll" });
+    }
+  }
 
-        localStorage.setItem("scan-A", JSON.stringify(result));
-      }
+  localStorage.setItem("scan-A", JSON.stringify(result));
+}
       function exportScanColumnEV() {
-        const ev = [];
+  const ev = [];
 
-        for (let r = 1; r < data.length; r++) {
-          const evCode = String(data[r][2] || "").trim(); // EV = คอลัมน์ที่ 2
-          if (evCode) ev.push(evCode);
-        }
+  for (let r = 1; r < data.length; r++) {
+    const evCode = String(data[r][2] || "").trim(); // EV = คอลัมน์ที่ 2
+    if (evCode) ev.push(evCode);
+  }
 
-        localStorage.setItem("scan-EV", JSON.stringify(ev));
-      }
+  localStorage.setItem("scan-EV", JSON.stringify(ev));
+}
+
 
       function openPage(url, exportType = "A") {
-        if (exportType === "A") {
-          exportScanColumnA();
-        } else if (exportType === "EV") {
-          exportScanColumnEV();
-        }
+  if (exportType === "A") {
+    exportScanColumnA();
+  } else if (exportType === "EV") {
+    exportScanColumnEV();
+  }
 
-        location.href = url;
-      }
-      openP58.onclick = () => openPage("./ป.58พื้นที่.html", "A");
-      openEMS.onclick = () => openPage("./EMS.html", "A");
-      openNM.onclick = () => openPage("./NM.html", "A");
-      openKG.onclick = () => openPage("./KG.html", "A");
+  location.href = url;
+}
+   openP58.onclick = () => openPage("./ป.58พื้นที่.html", "A");
+openEMS.onclick = () => openPage("./EMS.html", "A");
+openNM.onclick  = () => openPage("./NM.html", "A");
+openKG.onclick  = () => openPage("./KG.html", "A");
 
-      openSCB.onclick = () => openPage("./SCB.html", "EV");
+openSCB.onclick = () => openPage("./SCB.html", "EV");
+   
+
+     
     </script>
-
+    
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", async () => {

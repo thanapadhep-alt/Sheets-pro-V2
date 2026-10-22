@@ -7,25 +7,23 @@
 
     <!-- PWA -->
     <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#FF8FB1" />
+    <meta name="theme-color" content="#ff8fb1" />
     <link rel="apple-touch-icon" href="icon-192.png" />
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 
     <style>
       :root {
-  --primary: #FFB38A;   /* ส้มหลัก */
-  --danger: #FF7A7A;    /* แดงส้มพาสเทล (เด่นขึ้น) */
-  --bg: #fdf6f9;
-  --card: #ffffff;
-
-  --grid: #d0d0d0;
-  --grid-soft: #e0e0e0;
-
-  --row-alt: #fff7f3;   /* เปลี่ยนให้เข้ากับส้ม */
-  --active: #FFB38A;    /* ใช้โทนเดียวกับ palette */
-  --duplicate: #ecbb25;
-}
+        --primary: #ff8fb1;
+        --danger: #ff6b6b;
+        --bg: #fdf6f9;
+        --card: #ffffff;
+        --grid: #d0d0d0;
+        --grid-soft: #e0e0e0;
+        --row-alt: #fafafa;
+        --active: #ff5fa8;
+        --duplicate: #fff0c2;
+      }
       body {
         margin: 0;
         background: var(--bg);
@@ -238,6 +236,9 @@ toggleMenu.onclick = () => {
         return map;
       }
 
+      // ตัวแปรสถานะเพื่อไม่ให้เสียงร้องรัวๆ ทุกครั้งที่ขยับช่อง (ร้องเตือนเฉพาะตอนที่เพิ่งซ้ำใหม่)
+      let hasAlertedDup = false;
+
       /* ===== RENDER ===== */
       function render() {
         const dupMap = buildDupMap();
@@ -245,18 +246,79 @@ toggleMenu.onclick = () => {
         for (let c = 0; c < COLS; c++) html += `<th>${data[0][c]}</th>`;
         html += "</tr></thead><tbody>";
 
+        // ตัวแปรเช็กว่าในการเรนเดอร์รอบนี้ มีช่องไหนซ้ำบ้างไหม
+        let isAnyDuplicate = false; 
+
         for (let r = 1; r < data.length; r++) {
           html += `<tr data-row="${r}"><td>${r}</td>`;
           for (let c = 0; c < COLS; c++) {
             const v = data[r][c];
             const a = cur.r === r && cur.c === c ? "active" : "";
-            const d = v && dupMap.get(v) > 1 ? "duplicate" : "";
+            
+            // เช็กการซ้ำ
+            const isDup = v && dupMap.get(v) > 1;
+            if (isDup) isAnyDuplicate = true; // ปักธงว่าเจอจุดซ้ำแล้วนะ
+
+            const d = isDup ? "duplicate" : "";
             html += `<td class="${a} ${d}" data-r="${r}" data-c="${c}">${v}</td>`;
           }
           html += "</tr>";
         }
         html += "</tbody></table>";
         tableEl.innerHTML = html;
+
+        // ===== ส่วนควบคุมการเตือนข้อความและส่งเสียง =====
+        if (isAnyDuplicate) {
+          // แสดงข้อความเตือนบนหน้าจอ
+          showAlertMessage("พบข้อมูลซ้ำกันในตาราง กรุณาตรวจสอบ!");
+          
+          // ส่งเสียงเตือน (เฉพาะกรณีที่ก่อนหน้านี้ยังไม่ได้ร้องเตือน เพื่อป้องกันเสียงดังซ้อนกันถี่ๆ)
+          if (!hasAlertedDup) {
+            playAlertSound();
+            hasAlertedDup = true;
+          }
+        } else {
+          // ถ้าไม่มีข้อมูลซ้ำแล้ว ให้รีเซ็ตสถานะและซ่อนกล่องเตือน
+          hideAlertMessage();
+          hasAlertedDup = false;
+        }
+      }
+
+      // ฟังก์ชันสำหรับสังเคราะห์เสียงแจ้งเตือนอัตโนมัติ (ไม่ต้องใช้ไฟล์เสียงภายนอก)
+      function playAlertSound() {
+        try {
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioCtx.createOscillator();
+          const gainNode = audioCtx.createGain();
+
+          oscillator.type = 'sine';      // รูปแบบเสียง
+          oscillator.frequency.value = 587.33; // ความถี่เสียง (โน้ต D5 ให้ความรู้สึกเตือนภัย)
+          gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime); // ความดัง (0.2 = พอดีๆ ไม่หนวกหู)
+
+          oscillator.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          
+          oscillator.start();
+          // ให้เสียงร้องสั้นๆ 0.15 วินาทีแล้วหยุด
+          oscillator.stop(audioCtx.currentTime + 0.15); 
+        } catch (e) {
+          console.log("ไม่สามารถเล่นเสียงได้เนื่องจากข้อจำกัดของเบราว์เซอร์:", e);
+        }
+      }
+
+      // ฟังก์ชันแสดงกล่องข้อความเตือน
+      function showAlertMessage(msg) {
+        const alertBox = document.getElementById("alertBox");
+        if (alertBox) {
+          alertBox.innerText = `⚠️ ${msg}`;
+          alertBox.style.display = "block";
+        }
+      }
+
+      // ฟังก์ชันซ่อนกล่องข้อความเตือน
+      function hideAlertMessage() {
+        const alertBox = document.getElementById("alertBox");
+        if (alertBox) alertBox.style.display = "none";
       }
 
       /* ===== AUTO SCROLL ===== */
@@ -287,58 +349,19 @@ toggleMenu.onclick = () => {
       };
 
       /* ===== EDIT ===== */
-     editor.onkeydown = (e) => {
-  if (e.key === "Enter" && cur.r) {
-
-    const newValue = editor.value.trim();
-
-    // ✅ ตรวจซ้ำทั้งตาราง (ยกเว้น cell ปัจจุบัน)
-    let isDuplicate = false;
-
-    for (let r = 1; r < data.length; r++) {
-      for (let c = 0; c < COLS; c++) {
-
-        if (r === cur.r && c === cur.c) continue; // ข้ามตัวเอง
-
-        if (data[r][c].trim() === newValue && newValue !== "") {
-          isDuplicate = true;
-          break;
+      editor.onkeydown = (e) => {
+        if (e.key === "Enter" && cur.r) {
+          undoStack.push(snapshot());
+          redoStack.length = 0;
+          data[cur.r][cur.c] = editor.value.trim();
+          saveLocal();
+          cur.r = Math.min(cur.r + 1, ROWS - 1);
+          render();
+          editor.value = data[cur.r][cur.c];
+          editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
+          requestAnimationFrame(() => centerRow(cur.r));
         }
-      }
-      if (isDuplicate) break;
-    }
-
-    // ❌ ถ้าซ้ำ → ไม่ให้บันทึก
-   if (isDuplicate) {
-  alert("❌ ข้อมูลซ้ำ! ห้ามบันทึก");
-
-  // ❗ ไม่ต้อง reset ค่า (ค้างค่าที่พิมพ์ไว้)
-  // ✅ เลือกข้อความทั้งหมดทันที
-  setTimeout(() => {
-    editor.focus();
-    editor.select();
-  }, 0);
-
-  return;
-}
-
-    // ✅ ปกติ
-    undoStack.push(snapshot());
-    redoStack.length = 0;
-
-    data[cur.r][cur.c] = newValue;
-
-    saveLocal();
-
-    cur.r = Math.min(cur.r + 1, ROWS - 1);
-    render();
-
-    editor.value = data[cur.r][cur.c];
-    editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
-
-    requestAnimationFrame(() => centerRow(cur.r));
-  }
-};
+      };
 
       /* ===== UNDO / REDO ===== */
       undoBtn.onclick = () => {

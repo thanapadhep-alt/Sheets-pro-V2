@@ -300,7 +300,7 @@ toggleMenu.onclick = () => {
           
           oscillator.start();
           // ให้เสียงร้องสั้นๆ 0.15 วินาทีแล้วหยุด
-          oscillator.stop(audioCtx.currentTime + 0.15); 
+          oscillator.stop(audioCtx.currentTime + 2); 
         } catch (e) {
           console.log("ไม่สามารถเล่นเสียงได้เนื่องจากข้อจำกัดของเบราว์เซอร์:", e);
         }

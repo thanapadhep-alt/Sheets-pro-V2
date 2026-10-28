@@ -1,606 +1,796 @@
+
 <!doctype html>
 <html lang="th">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Sheets Pro 💕</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sheets Pro 💕</title>
 
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#ff8fb1" />
-    <link rel="apple-touch-icon" href="icon-192.png" />
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#FFB38A">
+  <link rel="apple-touch-icon" href="icon-192.png">
 
-    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 
-    <style>
-      :root {
-        --primary: #ff8fb1;
-        --danger: #ff6b6b;
-        --bg: #fdf6f9;
-        --card: #ffffff;
-        --grid: #d0d0d0;
-        --grid-soft: #e0e0e0;
-        --row-alt: #fafafa;
-        --active: #ff5fa8;
-        --duplicate: #fff0c2;
-      }
-      body {
-        margin: 0;
-        background: var(--bg);
-        font-family: "Kanit", sans-serif;
-      }
+  <style>
+    :root {
+      --primary: #41d37b;
+      --danger: #beb8b8;
+      --bg: #fdf6f9;
+      --card: #ffffff;
+      --grid: #d0d0d0;
+      --grid-soft: #e0e0e0;
+      --row-alt: #fff7f3;
+      --active: #FFB38A;
+      --duplicate: #ecbb25;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: Tahoma, sans-serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 16px auto;
+      background: var(--card);
+      padding: 16px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(255, 143, 177, 0.25);
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .header-bottom {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: #fff0f6;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--active);
+    }
+
+    button {
+      border: 0;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #553522;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-round {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      padding: 0;
+    }
+
+    #editor {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 10px;
+      border: 1px solid var(--grid);
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    #editor:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(255, 179, 138, 0.25);
+    }
+
+    #alertBox {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      background: #fff0c2;
+      color: #8a4b00;
+      border: 1px solid #ecbb25;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .sheet-wrapper {
+      margin-top: 16px;
+      border: 1px solid var(--grid);
+      border-radius: 12px;
+      overflow: auto;
+      max-height: 560px;
+      scroll-behavior: smooth;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid var(--grid);
+      white-space: nowrap;
+    }
+
+    th + th, td + td {
+      border-left: 1px solid var(--grid-soft);
+    }
+
+    tbody tr:nth-child(even) {
+      background: var(--row-alt);
+    }
+
+    th {
+      background: var(--primary);
+      color: #553522;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    td.active {
+      box-shadow: 0 0 0 2px var(--active) inset;
+      background: #ffe3ed;
+    }
+
+    td.duplicate {
+      background: var(--duplicate);
+      color: #382700;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
       .container {
-        max-width: 1200px;
-        margin: 16px auto;
-        background: var(--card);
-        padding: 16px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(255, 143, 177, 0.25);
-      }
-
-      /* ===== HEADER ===== */
-      .header {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      .header-top {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        align-items: center;
-      }
-      .header-bottom {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        background: #fff0f6;
-        padding: 8px 12px;
-        border-radius: 12px;
-        border: 1px solid var(--active);
-      }
-      button {
-        border: 0;
-        padding: 8px 14px;
-        border-radius: 10px;
-        cursor: pointer;
-        color: #fff;
-      }
-      .btn-primary {
-        background: var(--primary);
-      }
-      .btn-danger {
-        background: var(--danger);
-      }
-      .btn-round {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        font-size: 1.1rem;
-        padding: 0;
-      }
-      #editor {
-        flex: 1;
-        padding: 8px 10px;
-        border: 1px solid var(--grid);
-        border-radius: 8px;
-        font-size: 1rem;
-        outline: none;
-      }
-
-      /* ===== TABLE ===== */
-      .sheet-wrapper {
-        margin-top: 16px;
-        border: 1px solid var(--grid);
-        border-radius: 12px;
-        overflow: auto;
-        max-height: 560px;
-        scroll-behavior: smooth;
-      }
-      table {
-        border-collapse: collapse;
-        width: 100%;
-      }
-      th,
-      td {
+        margin: 0;
         padding: 10px;
-        border-bottom: 1px solid var(--grid);
-        white-space: nowrap;
+        border-radius: 0;
       }
-      th + th,
-      td + td {
-        border-left: 1px solid var(--grid-soft);
-      }
-      tbody tr:nth-child(even) {
-        background: var(--row-alt);
-      }
-      th {
-        background: var(--primary);
-        color: #fff;
-        position: sticky;
-        top: 0;
-      }
-      td.active {
-        box-shadow: 0 0 0 2px var(--active) inset;
-        background: #ffe3ed;
-      }
-      td.duplicate {
-        background: var(--duplicate);
-        font-weight: 600;
-      }
-    </style>
-  </head>
 
-  <body>
-    <div class="container">
-      <!-- HEADER -->
-      <div class="header">
-        <div class="header-top">
-          <strong>Sheets Pro 💕</strong>
+      .header-bottom {
+        flex-wrap: wrap;
+      }
 
-          <button class="btn-primary" id="saveXlsx">Save XLSX</button>
-          <button class="btn-primary" id="saveHtml">Save HTML</button>
-          <button class="btn-danger" id="clearBtn">Clear</button>
-          <button class="btn-danger" id="resetBtn">Reset</button>
-          <button class="btn-danger btn-round" id="undoBtn">⟲</button>
-          <button class="btn-primary btn-round" id="redoBtn">⟳</button>
-          </div> 
-        
-        <div class="header-top">
-  <button class="btn-primary" id="toggleMenu">เปิดแบบ ▼</button>
-</div>
+      #editor {
+        width: 100%;
+        flex-basis: 100%;
+      }
+    }
+  </style>
+</head>
 
-<div class="header-top" id="subMenu" style="display:none;">
-  <button class="btn-primary" id="openP58">ป.58</button>
-  <button class="btn-primary" id="openSCB">SCB</button>
-  <button class="btn-primary" id="openEMS">EMS</button>
-  <button class="btn-primary" id="openNM">นม.</button>
-  <button class="btn-primary" id="openKG">ขก.</button>
-</div>
-      
+<body>
+  <div class="container">
 
-        <div class="header-bottom">
-          <span id="editorInfo">เลือก cell</span>
-          <input id="editor" disabled />
-        </div>
+    <div class="header">
+
+      <div class="header-top">
+        <strong>Sheets Pro 💕</strong>
+
+        <button class="btn-primary" id="saveXlsx">Save XLSX</button>
+        <button class="btn-primary" id="saveHtml">Save HTML</button>
+        <button class="btn-danger" id="clearBtn">Clear</button>
+        <button class="btn-danger" id="resetBtn">Reset</button>
+        <button class="btn-danger btn-round" id="undoBtn">⟲</button>
+        <button class="btn-primary btn-round" id="redoBtn">⟳</button>
       </div>
 
-      <!-- TABLE -->
-      <div class="sheet-wrapper" id="sheetWrap">
-        <div id="table"></div>
+      <div class="header-top">
+        <button class="btn-primary" id="toggleMenu">เปิดแบบ ▼</button>
       </div>
+
+      <div class="header-top" id="subMenu" style="display:none">
+        <button class="btn-primary" id="openP58">ป.58</button>
+        <button class="btn-primary" id="openSCB">SCB</button>
+        <button class="btn-primary" id="openEMS">EMS</button>
+        <button class="btn-primary" id="openNM">นม.</button>
+        <button class="btn-primary" id="openKG">ขก.</button>
+      </div>
+
+      <div class="header-bottom">
+        <span id="editorInfo">เลือก cell</span>
+        <input id="editor" disabled autocomplete="off">
+      </div>
+
     </div>
 
-    <script>
-      const toggleMenu = document.getElementById("toggleMenu");
-const subMenu = document.getElementById("subMenu");
+    <div id="alertBox" role="alert" aria-live="polite"></div>
 
-toggleMenu.onclick = () => {
-  const isOpen = subMenu.style.display === "flex";
-  
-  subMenu.style.display = isOpen ? "none" : "flex";
-  toggleMenu.textContent = isOpen ? "เปิดแบบ ▼" : "ปิดแบบ ▲";
-};
+    <div class="sheet-wrapper" id="sheetWrap">
+      <div id="table"></div>
+    </div>
 
-      /* ===== CONFIG ===== */
-      const ROWS = 501;
-      const COLS = 3;
-      const STORAGE_KEY = "sheets-pro-final";
+  </div>
 
-      /* ===== DATE HELPER ===== */
-      function today() {
-        const d = new Date();
-        const y = d.getFullYear();
-        const m = String(d.getMonth() + 1).padStart(2, "0");
-        const day = String(d.getDate()).padStart(2, "0");
-        return `${y}-${m}-${day}`;
-      }
+  <script>
+    /* ===== CONFIG ===== */
+    const ROWS = 501;
+    const COLS = 3;
+    const STORAGE_KEY = "sheets-pro-final";
 
-      /* ===== DATA ===== */
-      let data = [["ถุง", "ROLL", "EV"]];
-      for (let i = 1; i < ROWS; i++) data.push(["", "", ""]);
+    /* ===== DOM ===== */
+    const tableEl = document.getElementById("table");
+    const sheetWrap = document.getElementById("sheetWrap");
+    const editor = document.getElementById("editor");
+    const editorInfo = document.getElementById("editorInfo");
+    const alertBox = document.getElementById("alertBox");
 
-      /* ===== STATE ===== */
-      let cur = { r: null, c: null };
-      let undoStack = [],
-        redoStack = [];
-      const snapshot = () => JSON.parse(JSON.stringify(data));
+    const saveXlsx = document.getElementById("saveXlsx");
+    const saveHtml = document.getElementById("saveHtml");
+    const clearBtn = document.getElementById("clearBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const undoBtn = document.getElementById("undoBtn");
+    const redoBtn = document.getElementById("redoBtn");
 
-      /* ===== DOM ===== */
-      const tableEl = document.getElementById("table");
-      const sheetWrap = document.getElementById("sheetWrap");
-      const editor = document.getElementById("editor");
-      const editorInfo = document.getElementById("editorInfo");
+    const toggleMenu = document.getElementById("toggleMenu");
+    const subMenu = document.getElementById("subMenu");
 
-      /* ===== STORAGE ===== */
-      function saveLocal() {
+    const openP58 = document.getElementById("openP58");
+    const openSCB = document.getElementById("openSCB");
+    const openEMS = document.getElementById("openEMS");
+    const openNM = document.getElementById("openNM");
+    const openKG = document.getElementById("openKG");
+
+    /* ===== DATE ===== */
+    function today() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
+
+    /* ===== DATA ===== */
+    let data = [["ถุง", "ROLL", "EV"]];
+
+    for (let i = 1; i < ROWS; i++) {
+      data.push(["", "", ""]);
+    }
+
+    let cur = { r: null, c: null };
+    let undoStack = [];
+    let redoStack = [];
+    let hasAlertedDup = false;
+    let audioCtx = null;
+
+    const snapshot = () => JSON.parse(JSON.stringify(data));
+
+    /* ===== STORAGE ===== */
+    function saveLocal() {
+      try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {
+        console.error("บันทึกข้อมูลไม่สำเร็จ:", e);
+        showAlertMessage("ไม่สามารถบันทึกข้อมูลในเครื่องได้");
       }
-      function loadLocal() {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          try {
-            data = JSON.parse(raw);
-          } catch {}
-        }
-      }
+    }
 
-      /* ===== DUPLICATE ===== */
-      function buildDupMap() {
-        const map = new Map();
-        for (let r = 1; r < data.length; r++)
-          for (let c = 0; c < COLS; c++) {
-            const v = data[r][c].trim();
-            if (v) map.set(v, (map.get(v) || 0) + 1);
+    function loadLocal() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+
+      try {
+        const saved = JSON.parse(raw);
+
+        if (!Array.isArray(saved) || !Array.isArray(saved[0])) {
+          return;
+        }
+
+        data = [["ถุง", "ROLL", "EV"]];
+
+        for (let r = 1; r < ROWS; r++) {
+          const row = saved[r];
+
+          data.push(
+            Array.from({ length: COLS }, (_, c) =>
+              row && row[c] != null ? String(row[c]) : ""
+            )
+          );
+        }
+      } catch (e) {
+        console.error("อ่านข้อมูลเดิมไม่สำเร็จ:", e);
+      }
+    }
+
+    /* ===== DUPLICATE MAP ===== */
+    function buildDupMap() {
+      const map = new Map();
+
+      for (let r = 1; r < data.length; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const v = String(data[r][c] ?? "").trim();
+
+          if (v) {
+            map.set(v, (map.get(v) || 0) + 1);
           }
-        return map;
-      }
-
-      // ตัวแปรสถานะเพื่อไม่ให้เสียงร้องรัวๆ ทุกครั้งที่ขยับช่อง (ร้องเตือนเฉพาะตอนที่เพิ่งซ้ำใหม่)
-      let hasAlertedDup = false;
-
-      /* ===== RENDER ===== */
-      function render() {
-        const dupMap = buildDupMap();
-        let html = "<table><thead><tr><th>#</th>";
-        for (let c = 0; c < COLS; c++) html += `<th>${data[0][c]}</th>`;
-        html += "</tr></thead><tbody>";
-
-        // ตัวแปรเช็กว่าในการเรนเดอร์รอบนี้ มีช่องไหนซ้ำบ้างไหม
-        let isAnyDuplicate = false; 
-
-        for (let r = 1; r < data.length; r++) {
-          html += `<tr data-row="${r}"><td>${r}</td>`;
-          for (let c = 0; c < COLS; c++) {
-            const v = data[r][c];
-            const a = cur.r === r && cur.c === c ? "active" : "";
-            
-            // เช็กการซ้ำ
-            const isDup = v && dupMap.get(v) > 1;
-            if (isDup) isAnyDuplicate = true; // ปักธงว่าเจอจุดซ้ำแล้วนะ
-
-            const d = isDup ? "duplicate" : "";
-            html += `<td class="${a} ${d}" data-r="${r}" data-c="${c}">${v}</td>`;
-          }
-          html += "</tr>";
-        }
-        html += "</tbody></table>";
-        tableEl.innerHTML = html;
-
-        // ===== ส่วนควบคุมการเตือนข้อความและส่งเสียง =====
-        if (isAnyDuplicate) {
-          // แสดงข้อความเตือนบนหน้าจอ
-          showAlertMessage("พบข้อมูลซ้ำกันในตาราง กรุณาตรวจสอบ!");
-          
-          // ส่งเสียงเตือน (เฉพาะกรณีที่ก่อนหน้านี้ยังไม่ได้ร้องเตือน เพื่อป้องกันเสียงดังซ้อนกันถี่ๆ)
-          if (!hasAlertedDup) {
-            playAlertSound();
-            hasAlertedDup = true;
-          }
-        } else {
-          // ถ้าไม่มีข้อมูลซ้ำแล้ว ให้รีเซ็ตสถานะและซ่อนกล่องเตือน
-          hideAlertMessage();
-          hasAlertedDup = false;
         }
       }
 
-      // ฟังก์ชันสำหรับสังเคราะห์เสียงแจ้งเตือนอัตโนมัติ (ไม่ต้องใช้ไฟล์เสียงภายนอก)
-      function playAlertSound() {
-        try {
-          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          const oscillator = audioCtx.createOscillator();
-          const gainNode = audioCtx.createGain();
+      return map;
+    }
 
-          oscillator.type = 'sine';      // รูปแบบเสียง
-          oscillator.frequency.value = 587.33; // ความถี่เสียง (โน้ต D5 ให้ความรู้สึกเตือนภัย)
-          gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime); // ความดัง (0.2 = พอดีๆ ไม่หนวกหู)
+    /* ===== ALERT MESSAGE ===== */
+    function showAlertMessage(msg) {
+      alertBox.textContent = "⚠️ " + msg;
+      alertBox.style.display = "block";
+    }
 
-          oscillator.connect(gainNode);
-          gainNode.connect(audioCtx.destination);
-          
-          oscillator.start();
-          // ให้เสียงร้องสั้นๆ 0.15 วินาทีแล้วหยุด
-          oscillator.stop(audioCtx.currentTime + 10); 
-        } catch (e) {
-          console.log("ไม่สามารถเล่นเสียงได้เนื่องจากข้อจำกัดของเบราว์เซอร์:", e);
+    function hideAlertMessage() {
+      alertBox.style.display = "none";
+      alertBox.textContent = "";
+    }
+
+    /* ===== DUPLICATE ALERT SOUND ===== */
+const duplicateAudio = new Audio(
+  "./3dabrar-funny-alarm-317531.mp3"
+);
+
+duplicateAudio.preload = "auto";
+duplicateAudio.volume = 1.0;
+
+function playAlertSound() {
+  try {
+    duplicateAudio.pause();
+    duplicateAudio.currentTime = 0;
+
+    duplicateAudio.play().catch((error) => {
+      console.log("ไม่สามารถเล่นเสียงเตือนได้:", error);
+    });
+  } catch (error) {
+    console.log("เกิดข้อผิดพลาดในการเล่นเสียง:", error);
+  }
+}
+
+    /* ===== RENDER ===== */
+    function render() {
+      const dupMap = buildDupMap();
+      let html = "<table><thead><tr><th>#</th>";
+
+      for (let c = 0; c < COLS; c++) {
+        html += `<th>${escapeHtml(data[0][c])}</th>`;
+      }
+
+      html += "</tr></thead><tbody>";
+
+      let isAnyDuplicate = false;
+
+      for (let r = 1; r < data.length; r++) {
+        html += `<tr data-row="${r}"><td>${r}</td>`;
+
+        for (let c = 0; c < COLS; c++) {
+          const v = String(data[r][c] ?? "");
+          const a = cur.r === r && cur.c === c ? "active" : "";
+          const isDup = v.trim() !== "" && dupMap.get(v.trim()) > 1;
+
+          if (isDup) isAnyDuplicate = true;
+
+          const d = isDup ? "duplicate" : "";
+
+          html +=
+            `<td class="${a} ${d}" data-r="${r}" data-c="${c}">` +
+            `${escapeHtml(v)}</td>`;
         }
+
+        html += "</tr>";
       }
 
-      // ฟังก์ชันแสดงกล่องข้อความเตือน
-      function showAlertMessage(msg) {
-        const alertBox = document.getElementById("alertBox");
-        if (alertBox) {
-          alertBox.innerText = `⚠️ ${msg}`;
-          alertBox.style.display = "block";
+      html += "</tbody></table>";
+      tableEl.innerHTML = html;
+
+      if (isAnyDuplicate) {
+        showAlertMessage("พบข้อมูลซ้ำในตาราง กรุณาตรวจสอบช่องสีเหลือง");
+
+        if (!hasAlertedDup) {
+          playAlertSound();
+          hasAlertedDup = true;
         }
+      } else {
+        hideAlertMessage();
+        hasAlertedDup = false;
       }
+    }
 
-      // ฟังก์ชันซ่อนกล่องข้อความเตือน
-      function hideAlertMessage() {
-        const alertBox = document.getElementById("alertBox");
-        if (alertBox) alertBox.style.display = "none";
-      }
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
-      /* ===== AUTO SCROLL ===== */
-      function centerRow(r) {
-        const row = document.querySelector(`tr[data-row="${r}"]`);
-        if (!row) return;
-        const wrapRect = sheetWrap.getBoundingClientRect();
-        const rowRect = row.getBoundingClientRect();
-        const BIAS = -160;
-        sheetWrap.scrollTop += rowRect.top - wrapRect.top - wrapRect.height / 2 + rowRect.height / 2 - BIAS;
-      }
+    /* ===== AUTO SCROLL ===== */
+    function centerRow(r) {
+      const row = document.querySelector(`tr[data-row="${r}"]`);
+      if (!row) return;
 
-      /* ===== INIT ===== */
-      loadLocal();
+      const wrapRect = sheetWrap.getBoundingClientRect();
+      const rowRect = row.getBoundingClientRect();
+      const BIAS = -160;
+
+      sheetWrap.scrollTop +=
+        rowRect.top - wrapRect.top -
+        wrapRect.height / 2 + rowRect.height / 2 - BIAS;
+    }
+
+    /* ===== MENU ===== */
+    toggleMenu.onclick = () => {
+      const isOpen = subMenu.style.display !== "none";
+
+      subMenu.style.display = isOpen ? "none" : "flex";
+      toggleMenu.textContent = isOpen ? "เปิดแบบ ▼" : "ปิดแบบ ▲";
+    };
+
+    /* ===== CLICK CELL ===== */
+    tableEl.onclick = (e) => {
+      const td = e.target.closest("td[data-r]");
+      if (!td) return;
+
+      cur = {
+        r: Number(td.dataset.r),
+        c: Number(td.dataset.c)
+      };
+
       render();
 
-      /* ===== CLICK CELL ===== */
-      tableEl.onclick = (e) => {
-        const td = e.target.closest("td[data-r]");
-        if (!td) return;
-        cur = { r: +td.dataset.r, c: +td.dataset.c };
-        render();
-        editor.disabled = false;
-        editor.value = data[cur.r][cur.c];
-        editor.focus();
-        editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
-        requestAnimationFrame(() => centerRow(cur.r));
-      };
+      editor.disabled = false;
+      editor.value = data[cur.r][cur.c];
+      editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
 
-      /* ===== EDIT ===== */
-      editor.onkeydown = (e) => {
-        if (e.key === "Enter" && cur.r) {
-          undoStack.push(snapshot());
-          redoStack.length = 0;
-          data[cur.r][cur.c] = editor.value.trim();
-          saveLocal();
-          cur.r = Math.min(cur.r + 1, ROWS - 1);
-          render();
-          editor.value = data[cur.r][cur.c];
-          editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
-          requestAnimationFrame(() => centerRow(cur.r));
-        }
-      };
+      editor.focus();
+      requestAnimationFrame(() => centerRow(cur.r));
+    };
 
-      /* ===== UNDO / REDO ===== */
-      undoBtn.onclick = () => {
-        if (!undoStack.length) return;
-        redoStack.push(snapshot());
-        data = undoStack.pop();
-        saveLocal();
-        render();
-      };
-      redoBtn.onclick = () => {
-        if (!redoStack.length) return;
-        undoStack.push(snapshot());
-        data = redoStack.pop();
-        saveLocal();
-        render();
-      };
+    /* ===== EDIT AND BLOCK DUPLICATES ===== */
+    editor.onkeydown = (e) => {
+      if (e.key !== "Enter" || cur.r === null) return;
 
-      /* ===== CLEAR / RESET ===== */
-      clearBtn.onclick = () => {
-        if (!confirm("ลบข้อมูลทั้งหมด?")) return;
-        undoStack.push(snapshot());
-        redoStack.length = 0;
-        for (let r = 1; r < data.length; r++) for (let c = 0; c < COLS; c++) data[r][c] = "";
-        saveLocal();
-        render();
-      };
-      resetBtn.onclick = () => {
-        if (!confirm("รีเซ็ตทั้งหมดถาวร?")) return;
-        localStorage.removeItem(STORAGE_KEY);
-        location.reload();
-      };
+      e.preventDefault();
 
-      function autoFitColumns(ws, data) {
-        const colCount = data[0]?.length || 0;
-        const widths = new Array(colCount).fill(10);
+      const newValue = editor.value.trim();
 
-        for (let r = 0; r < data.length; r++) {
-          for (let c = 0; c < colCount; c++) {
-            const v = data[r][c] ?? "";
-            const text = String(v);
+      if (newValue !== "") {
+        let duplicatePosition = null;
 
-            // ภาษาไทยกินพื้นที่มากกว่าเล็กน้อย
-            const isThai = /[\u0E00-\u0E7F]/.test(text);
-            const len = text.length;
+        for (let r = 1; r < data.length; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if (r === cur.r && c === cur.c) continue;
 
-            let w = len + (isThai ? 4 : 2);
+            const existing = String(data[r][c] ?? "").trim();
 
-            // ป้องกันเล็ก/ใหญ่เกิน
-            w = Math.max(6, w);
-            w = Math.min(60, w);
-
-            if (w > widths[c]) widths[c] = w;
-          }
-        }
-
-        ws["!cols"] = widths.map((w) => ({ wch: w }));
-      }
-
-      function styleSheet(ws, data) {
-        const range = XLSX.utils.decode_range(ws["!ref"]);
-        const lastRow = range.e.r;
-        const lastCol = range.e.c;
-
-        // ✅ สไตล์เส้นตาราง (ทุกช่อง)
-        const borderAll = {
-          top: { style: "thin", color: { rgb: "D0D0D0" } },
-          bottom: { style: "thin", color: { rgb: "D0D0D0" } },
-          left: { style: "thin", color: { rgb: "D0D0D0" } },
-          right: { style: "thin", color: { rgb: "D0D0D0" } }
-        };
-
-        // ✅ หัวตาราง
-        const headerStyle = {
-          font: { bold: true, color: { rgb: "FFFFFF" } },
-          fill: { patternType: "solid", fgColor: { rgb: "FF8FB1" } },
-          alignment: { horizontal: "center", vertical: "center", wrapText: true },
-          border: borderAll
-        };
-
-        // ✅ cell ปกติ
-        const cellStyle = {
-          alignment: { vertical: "center", wrapText: true },
-          border: borderAll
-        };
-
-        // ✅ คอลัมน์ลำดับ (#) จัดกึ่งกลาง
-        const centerStyle = {
-          alignment: { horizontal: "center", vertical: "center", wrapText: true },
-          border: borderAll
-        };
-
-        // ✅ ใส่สไตล์ทุก cell
-        for (let r = 0; r <= lastRow; r++) {
-          for (let c = 0; c <= lastCol; c++) {
-            const addr = XLSX.utils.encode_cell({ r, c });
-            const cell = ws[addr];
-            if (!cell) continue;
-
-            // หัวตาราง = แถวแรก
-            if (r === 0) {
-              cell.s = headerStyle;
-            } else {
-              // คอลัมน์แรก (#) ให้กึ่งกลาง
-              if (c === 0) cell.s = centerStyle;
-              else cell.s = cellStyle;
+            if (existing === newValue) {
+              duplicatePosition = { r, c };
+              break;
             }
           }
+
+          if (duplicatePosition) break;
         }
 
-        // ✅ ปรับความสูงแถวหัวตารางให้ดูเหมือนชีต
-        ws["!rows"] = ws["!rows"] || [];
-        ws["!rows"][0] = { hpt: 22 };
+        if (duplicatePosition) {
+          showAlertMessage(
+            `ข้อมูล "${newValue}" ซ้ำกับแถว ${duplicatePosition.r} ` +
+            `คอลัมน์ ${data[0][duplicatePosition.c]}`
+          );
+
+          playAlertSound();
+
+          // เลือกข้อความทั้งหมด ให้พิมพ์ทับได้ทันที
+          requestAnimationFrame(() => {
+            editor.focus();
+            editor.select();
+          });
+
+          return;
+        }
       }
-      /* ===== SAVE XLSX (AUTO DATE + AUTOFIT + STYLE) ===== */
-      saveXlsx.onclick = () => {
-        const date = today();
-        let name = prompt("ตั้งชื่อไฟล์", `sheet-${date}`);
-        if (!name) return;
-        if (!name.endsWith(".xlsx")) name += ".xlsx";
 
-        const ws = XLSX.utils.aoa_to_sheet(data);
+      // บันทึกเฉพาะเมื่อไม่ซ้ำ
+      undoStack.push(snapshot());
+      redoStack.length = 0;
 
-        // ✅ ขยายคอลัมน์ตามข้อความ
-        autoFitColumns(ws, data);
+      data[cur.r][cur.c] = newValue;
 
-        // ✅ ทำให้เหมือน Excel (สีหัวตาราง + เส้นตาราง)
-        styleSheet(ws, data);
+      saveLocal();
 
-        // ✅ เพิ่มคอลัมน์บางช่องให้กว้างพิเศษ (เลือกใช้ได้)
-        // ws["!cols"][0] = { wch: 5 };   // #
-        // ws["!cols"][2] = { wch: 30 };  // ROLL
-        // ws["!cols"][3] = { wch: 30 };  // EV
+      const savedRow = cur.r;
+      render();
 
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-        XLSX.writeFile(wb, name);
+      cur.r = Math.min(savedRow + 1, ROWS - 1);
+
+      editor.value = data[cur.r][cur.c];
+      editorInfo.textContent = `แถว ${cur.r} | ${data[0][cur.c]}`;
+
+      render();
+
+      requestAnimationFrame(() => {
+        centerRow(cur.r);
+        editor.focus();
+      });
+    };
+
+    /* ===== UNDO ===== */
+    undoBtn.onclick = () => {
+      if (!undoStack.length) return;
+
+      redoStack.push(snapshot());
+      data = undoStack.pop();
+
+      saveLocal();
+      render();
+
+      if (cur.r !== null) {
+        editor.value = data[cur.r][cur.c];
+      }
+    };
+
+    /* ===== REDO ===== */
+    redoBtn.onclick = () => {
+      if (!redoStack.length) return;
+
+      undoStack.push(snapshot());
+      data = redoStack.pop();
+
+      saveLocal();
+      render();
+
+      if (cur.r !== null) {
+        editor.value = data[cur.r][cur.c];
+      }
+    };
+
+    /* ===== CLEAR ===== */
+    clearBtn.onclick = () => {
+      if (!confirm("ลบข้อมูลทั้งหมด?")) return;
+
+      undoStack.push(snapshot());
+      redoStack.length = 0;
+
+      for (let r = 1; r < data.length; r++) {
+        for (let c = 0; c < COLS; c++) {
+          data[r][c] = "";
+        }
+      }
+
+      saveLocal();
+      render();
+    };
+
+    /* ===== RESET ===== */
+    resetBtn.onclick = () => {
+      if (!confirm("รีเซ็ตข้อมูลที่บันทึกไว้ทั้งหมดหรือไม่?")) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    };
+
+    /* ===== XLSX HELPERS ===== */
+    function autoFitColumns(ws, sheetData) {
+      const colCount = sheetData[0]?.length || 0;
+      const widths = new Array(colCount).fill(10);
+
+      for (let r = 0; r < sheetData.length; r++) {
+        for (let c = 0; c < colCount; c++) {
+          const text = String(sheetData[r][c] ?? "");
+          const isThai = /[\u0E00-\u0E7F]/.test(text);
+
+          let w = text.length + (isThai ? 4 : 2);
+          w = Math.max(6, Math.min(60, w));
+
+          if (w > widths[c]) widths[c] = w;
+        }
+      }
+
+      ws["!cols"] = widths.map(w => ({ wch: w }));
+    }
+
+    function styleSheet(ws) {
+      if (!ws["!ref"]) return;
+
+      const range = XLSX.utils.decode_range(ws["!ref"]);
+
+      const borderAll = {
+        top: { style: "thin", color: { rgb: "D0D0D0" } },
+        bottom: { style: "thin", color: { rgb: "D0D0D0" } },
+        left: { style: "thin", color: { rgb: "D0D0D0" } },
+        right: { style: "thin", color: { rgb: "D0D0D0" } }
       };
-      /* ===== SAVE HTML (AUTO DATE) ===== */
-      saveHtml.onclick = () => {
-        const date = today();
-        let name = prompt("ตั้งชื่อไฟล์", `sheet-${date}`);
-        if (!name) return;
-        if (!name.endsWith(".html")) name += ".html";
 
-        const style = `
+      const headerStyle = {
+        font: { bold: true, color: { rgb: "FFFFFF" } },
+        fill: { patternType: "solid", fgColor: { rgb: "FFB38A" } },
+        alignment: {
+          horizontal: "center",
+          vertical: "center",
+          wrapText: true
+        },
+        border: borderAll
+      };
+
+      const cellStyle = {
+        alignment: { vertical: "center", wrapText: true },
+        border: borderAll
+      };
+
+      for (let r = range.s.r; r <= range.e.r; r++) {
+        for (let c = range.s.c; c <= range.e.c; c++) {
+          const addr = XLSX.utils.encode_cell({ r, c });
+          const cell = ws[addr];
+
+          if (!cell) continue;
+          cell.s = r === 0 ? headerStyle : cellStyle;
+        }
+      }
+
+      ws["!rows"] = ws["!rows"] || [];
+      ws["!rows"][0] = { hpt: 22 };
+    }
+
+    /* ===== SAVE XLSX ===== */
+    saveXlsx.onclick = () => {
+      if (typeof XLSX === "undefined") {
+        alert("ไม่สามารถโหลดไลบรารี XLSX ได้ กรุณาตรวจสอบอินเทอร์เน็ต");
+        return;
+      }
+
+      let name = prompt("ตั้งชื่อไฟล์", `sheet-${today()}`);
+      if (!name) return;
+
+      name = name.trim();
+      if (!name) return;
+      if (!name.toLowerCase().endsWith(".xlsx")) name += ".xlsx";
+
+      const ws = XLSX.utils.aoa_to_sheet(data);
+
+      autoFitColumns(ws, data);
+      styleSheet(ws);
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      XLSX.writeFile(wb, name);
+    };
+
+    /* ===== SAVE HTML ===== */
+    saveHtml.onclick = () => {
+      let name = prompt("ตั้งชื่อไฟล์", `sheet-${today()}`);
+      if (!name) return;
+
+      name = name.trim();
+      if (!name) return;
+      if (!name.toLowerCase().endsWith(".html")) name += ".html";
+
+      const exportData = data.map(row => row.slice());
+      const tableHtml = XLSX.utils.aoa_to_sheet
+        ? tableEl.innerHTML
+        : tableEl.innerHTML;
+
+      const style = `
 <style>
-  body{
-    font-family:Kanit,sans-serif;
-    padding:16px;
+  body {
+    font-family: Tahoma, sans-serif;
+    padding: 16px;
   }
-
-  /* ✅ ห้ามบังคับเต็มจอ */
-  table{
-    border-collapse:collapse;
-    width:auto;               /* สำคัญ */
-    max-width:100%;
-    table-layout:auto;
+  table {
+    border-collapse: collapse;
+    width: auto;
+    max-width: 100%;
+    table-layout: auto;
   }
-
-  th,td{
-    padding:6px 8px;          /* ลดช่องว่าง */
-    border:1px solid #d0d0d0;
-    white-space:nowrap;       /* ให้พอดีกับข้อความ */
+  th, td {
+    padding: 6px 8px;
+    border: 1px solid #d0d0d0;
+    white-space: nowrap;
   }
-
-  th{
-    background:#ff8fb1;
-    color:#fff;
+  th {
+    background: #FFB38A;
+    color: #553522;
   }
-
-  tr:nth-child(even){background:#fafafa}
-  td.duplicate{background:#fff0c2;font-weight:600}
+  tr:nth-child(even) {
+    background: #fff7f3;
+  }
+  td.duplicate {
+    background: #ecbb25;
+    font-weight: 600;
+  }
 </style>`;
-        const html = `<!doctype html><html lang="th"><head>
-  <meta charset="utf-8"><title>${name}</title>${style}
-  </head><body>${tableEl.innerHTML}</body></html>`;
-        const blob = new Blob([html], { type: "text/html" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = name;
-        a.click();
-      };
-      function exportScanColumnA() {
-  const result = [];
 
-  for (let r = 1; r < data.length; r++) {
-    const bagCode = String(data[r][0] || "").trim();
-    const rollCode = String(data[r][1] || "").trim();
+      const html =
+        `<!doctype html><html lang="th"><head>` +
+        `<meta charset="utf-8"><title>${escapeHtml(name)}</title>` +
+        `${style}</head><body>${tableHtml}</body></html>`;
 
-    if (bagCode) {
-      result.push({ code: bagCode, type: "bag" });
-    }
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
 
-    if (rollCode) {
-      result.push({ code: rollCode, type: "roll" });
-    }
-  }
+      a.href = url;
+      a.download = name;
+      a.click();
 
-  localStorage.setItem("scan-A", JSON.stringify(result));
-}
-      function exportScanColumnEV() {
-  const ev = [];
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
 
-  for (let r = 1; r < data.length; r++) {
-    const evCode = String(data[r][2] || "").trim(); // EV = คอลัมน์ที่ 2
-    if (evCode) ev.push(evCode);
-  }
+    /* ===== EXPORT SCAN DATA ===== */
+    function exportScanColumnA() {
+      const result = [];
 
-  localStorage.setItem("scan-EV", JSON.stringify(ev));
-}
+      for (let r = 1; r < data.length; r++) {
+        const bagCode = String(data[r][0] || "").trim();
+        const rollCode = String(data[r][1] || "").trim();
 
-
-      function openPage(url, exportType = "A") {
-  if (exportType === "A") {
-    exportScanColumnA();
-  } else if (exportType === "EV") {
-    exportScanColumnEV();
-  }
-
-  location.href = url;
-}
-   openP58.onclick = () => openPage("./ป.58พื้นที่.html", "A");
-openEMS.onclick = () => openPage("./EMS.html", "A");
-openNM.onclick  = () => openPage("./NM.html", "A");
-openKG.onclick  = () => openPage("./KG.html", "A");
-
-openSCB.onclick = () => openPage("./SCB.html", "EV");
-   
-
-     
-    </script>
-    
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", async () => {
-          const reg = await navigator.serviceWorker.register("./service-worker.js");
-          reg.update(); // ✅ บังคับเช็คอัปเดต
-        });
+        if (bagCode) result.push({ code: bagCode, type: "bag" });
+        if (rollCode) result.push({ code: rollCode, type: "roll" });
       }
-    </script>
-  </body>
+
+      localStorage.setItem("scan-A", JSON.stringify(result));
+    }
+
+    function exportScanColumnEV() {
+      const ev = [];
+
+      for (let r = 1; r < data.length; r++) {
+        const evCode = String(data[r][2] || "").trim();
+        if (evCode) ev.push(evCode);
+      }
+
+      localStorage.setItem("scan-EV", JSON.stringify(ev));
+    }
+
+    function openPage(url, exportType = "A") {
+      if (exportType === "A") {
+        exportScanColumnA();
+      } else if (exportType === "EV") {
+        exportScanColumnEV();
+      }
+
+      location.href = url;
+    }
+
+    openP58.onclick = () => openPage("./ป.58พื้นที่.html", "A");
+    openEMS.onclick = () => openPage("./EMS.html", "A");
+    openNM.onclick = () => openPage("./NM.html", "A");
+    openKG.onclick = () => openPage("./KG.html", "A");
+    openSCB.onclick = () => openPage("./SCB.html", "EV");
+
+    /* ===== INIT ===== */
+    loadLocal();
+    render();
+
+    /* ===== PWA ===== */
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", async () => {
+        try {
+          const reg = await navigator.serviceWorker.register("./service-worker.js");
+          reg.update();
+        } catch (e) {
+          console.log("Service Worker ลงทะเบียนไม่สำเร็จ:", e);
+        }
+      });
+    }
+  </script>
+</body>
 </html>
+```
